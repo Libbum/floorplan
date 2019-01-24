@@ -4,6 +4,7 @@ import Browser exposing (Document)
 import Dict exposing (Dict)
 import Html exposing (Html)
 import Html.Attributes as Attributes
+import Map
 import Selectize
 
 
@@ -124,6 +125,8 @@ view model =
                     ]
                 ]
             , Html.text (Maybe.withDefault "" model.selected)
+            , Map.floor1
+            , Map.room106
             ]
         ]
     }
