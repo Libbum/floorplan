@@ -4,7 +4,9 @@ import Browser exposing (Document)
 import Dict exposing (Dict)
 import Html exposing (Html)
 import Html.Attributes as Attributes
-import Map exposing (Colour(..), Room)
+import Html.Events
+import Icons
+import Map exposing (Colour(..), Floor(..), Room)
 import Selectize
 import TypedSvg.Core exposing (Svg)
 
@@ -27,6 +29,7 @@ type alias Model =
     { selected : Maybe Room
     , roomMenu : Selectize.State Room
     , rooms : Dict String Room
+    , floor : Floor
     }
 
 
@@ -43,6 +46,7 @@ init _ =
                 (\room -> room.label)
                 (roomsSelect rooms)
       , rooms = rooms
+      , floor = Two
       }
     , Cmd.none
     )
@@ -55,6 +59,7 @@ init _ =
 type Msg
     = RoomMenu (Selectize.Msg Room)
     | SelectRoom (Maybe Room)
+    | ToggleFloor Floor
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -84,6 +89,9 @@ update msg model =
 
         SelectRoom newSelection ->
             ( { model | selected = newSelection }, Cmd.none )
+
+        ToggleFloor floor ->
+            ( { model | floor = floor }, Cmd.none )
 
 
 andDo : Cmd msg -> ( model, Cmd msg ) -> ( model, Cmd msg )
@@ -125,8 +133,9 @@ view model =
                         |> Html.map RoomMenu
                     ]
                 ]
-            , Map.show model.selected
             ]
+        , Html.div [] <| floors model.floor
+        , Map.show model.floor model.selected
         ]
     }
 
@@ -227,22 +236,60 @@ clearButton =
 ---- DATA
 
 
+floors : Floor -> List (Html Msg)
+floors current =
+    [ One, Two, Three, Four ]
+        |> List.map
+            (\f ->
+                Html.label []
+                    [ Html.input
+                        [ Attributes.type_ "radio"
+                        , Html.Events.onClick (ToggleFloor f)
+                        , Attributes.checked (current == f)
+                        ]
+                        []
+                    , if current == f then
+                        Icons.checkCircle
+
+                      else
+                        Icons.circle
+                    , Html.text (floorLabel f)
+                    ]
+            )
+
+
+floorLabel : Floor -> String
+floorLabel current =
+    case current of
+        One ->
+            "Floor 1"
+
+        Two ->
+            "Floor 2"
+
+        Three ->
+            "Floor 3"
+
+        Four ->
+            "Floor 4"
+
+
 roomsSelect : Dict String Room -> List (Selectize.Entry Room)
 roomsSelect rooms =
     List.concat
         [ [ Selectize.divider "Floor 1" ]
-        , floor 1 rooms |> List.map Selectize.entry
+        , filterFloor 1 rooms |> List.map Selectize.entry
         , [ Selectize.divider "Floor 2" ]
-        , floor 2 rooms |> List.map Selectize.entry
+        , filterFloor 2 rooms |> List.map Selectize.entry
         , [ Selectize.divider "Floor 3" ]
-        , floor 3 rooms |> List.map Selectize.entry
+        , filterFloor 3 rooms |> List.map Selectize.entry
         , [ Selectize.divider "Floor 4" ]
-        , floor 4 rooms |> List.map Selectize.entry
+        , filterFloor 4 rooms |> List.map Selectize.entry
         ]
 
 
-floor : Int -> Dict String Room -> List Room
-floor num rooms =
+filterFloor : Int -> Dict String Room -> List Room
+filterFloor num rooms =
     Dict.filter (\key val -> String.startsWith (String.fromInt num) key) rooms
         |> Dict.values
 
