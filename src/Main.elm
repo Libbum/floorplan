@@ -4,8 +4,9 @@ import Browser exposing (Document)
 import Dict exposing (Dict)
 import Html exposing (Html)
 import Html.Attributes as Attributes
-import Map
+import Map exposing (Colour(..), Room)
 import Selectize
+import TypedSvg.Core exposing (Svg)
 
 
 main : Program {} Model Msg
@@ -23,8 +24,8 @@ main =
 
 
 type alias Model =
-    { selected : Maybe String
-    , roomMenu : Selectize.State String
+    { selected : Maybe Room
+    , roomMenu : Selectize.State Room
     , rooms : Dict String Room
     }
 
@@ -39,7 +40,7 @@ init _ =
       , roomMenu =
             Selectize.closed
                 "textfield-menu"
-                identity
+                (\room -> room.label)
                 (roomsSelect rooms)
       , rooms = rooms
       }
@@ -52,17 +53,17 @@ init _ =
 
 
 type Msg
-    = TextfieldMenuMsg (Selectize.Msg String)
-    | SelectTextfieldLicense (Maybe String)
+    = RoomMenu (Selectize.Msg Room)
+    | SelectRoom (Maybe Room)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        TextfieldMenuMsg selectizeMsg ->
+        RoomMenu selectizeMsg ->
             let
                 ( newMenu, menuCmd, maybeMsg ) =
-                    Selectize.update SelectTextfieldLicense
+                    Selectize.update SelectRoom
                         model.selected
                         model.roomMenu
                         selectizeMsg
@@ -71,7 +72,7 @@ update msg model =
                     { model | roomMenu = newMenu }
 
                 cmd =
-                    menuCmd |> Cmd.map TextfieldMenuMsg
+                    menuCmd |> Cmd.map RoomMenu
             in
             case maybeMsg of
                 Just nextMsg ->
@@ -81,7 +82,7 @@ update msg model =
                 Nothing ->
                     ( newModel, cmd )
 
-        SelectTextfieldLicense newSelection ->
+        SelectRoom newSelection ->
             ( { model | selected = newSelection }, Cmd.none )
 
 
@@ -118,15 +119,13 @@ view model =
                 [ Html.div
                     [ Attributes.style "width" "30rem" ]
                     [ Selectize.view
-                        viewConfigTextfield
+                        viewConfig
                         model.selected
                         model.roomMenu
-                        |> Html.map TextfieldMenuMsg
+                        |> Html.map RoomMenu
                     ]
                 ]
-            , Html.text (Maybe.withDefault "" model.selected)
-            , Map.floor1
-            , Map.room106
+            , Map.floor1 model.selected
             ]
         ]
     }
@@ -136,13 +135,8 @@ view model =
 ---- CONFIGURATION
 
 
-viewConfigTextfield : Selectize.ViewConfig String
-viewConfigTextfield =
-    viewConfig textfieldSelector
-
-
-viewConfig : Selectize.Input String -> Selectize.ViewConfig String
-viewConfig selector =
+viewConfig : Selectize.ViewConfig Room
+viewConfig =
     Selectize.viewConfig
         { container = []
         , menu =
@@ -163,7 +157,7 @@ viewConfig selector =
                         ]
                     ]
                 , children =
-                    [ Html.text tree ]
+                    [ Html.text tree.label ]
                 }
         , divider =
             \title ->
@@ -172,12 +166,12 @@ viewConfig selector =
                 , children =
                     [ Html.text title ]
                 }
-        , input = selector
+        , input = roomSelector
         }
 
 
-textfieldSelector : Selectize.Input String
-textfieldSelector =
+roomSelector : Selectize.Input Room
+roomSelector =
     Selectize.autocomplete <|
         { attrs =
             \sthSelected open ->
@@ -233,7 +227,7 @@ clearButton =
 ---- DATA
 
 
-roomsSelect : Dict String Room -> List (Selectize.Entry String)
+roomsSelect : Dict String Room -> List (Selectize.Entry Room)
 roomsSelect rooms =
     List.concat
         [ [ Selectize.divider "Floor 1" ]
@@ -247,104 +241,679 @@ roomsSelect rooms =
         ]
 
 
-type alias Room =
-    { label : String
-    , colour : Colour
-    , bookable : Bool
-    , exception : Bool
-    }
-
-
-type Colour
-    = Red
-    | Yellow
-    | Green
-    | Blue
-    | Clear
-
-
-floor : Int -> Dict String Room -> List String
+floor : Int -> Dict String Room -> List Room
 floor num rooms =
     Dict.filter (\key val -> String.startsWith (String.fromInt num) key) rooms
         |> Dict.values
-        |> List.map (\room -> room.label)
 
 
 building : Dict String Room
 building =
     Dict.fromList
-        [ ( "106", { label = "106 Meeting Room", colour = Red, bookable = True, exception = False } )
-        , ( "108", { label = "108 Archive", colour = Clear, bookable = False, exception = False } )
-        , ( "109", { label = "109 Secure Archive", colour = Clear, bookable = False, exception = False } )
-        , ( "110", { label = "110 Meditation Room", colour = Clear, bookable = False, exception = False } )
-        , ( "206", { label = "206 Telephone Room", colour = Yellow, bookable = False, exception = False } )
-        , ( "208B", { label = "208B Telephone Room", colour = Yellow, bookable = False, exception = False } )
-        , ( "208", { label = "208 Hall", colour = Blue, bookable = False, exception = False } )
-        , ( "209", { label = "209 Group Room", colour = Blue, bookable = False, exception = False } )
-        , ( "211", { label = "211 Office", colour = Green, bookable = False, exception = False } )
-        , ( "212", { label = "212 Office", colour = Green, bookable = False, exception = False } )
-        , ( "213", { label = "213 Office (Admin Room)", colour = Green, bookable = False, exception = True } )
-        , ( "214", { label = "214 Office", colour = Green, bookable = False, exception = False } )
-        , ( "216", { label = "216 Lobby", colour = Blue, bookable = False, exception = False } )
-        , ( "222", { label = "222 Massage/Sick Room", colour = Yellow, bookable = False, exception = False } )
-        , ( "226", { label = "226 Meeting Room", colour = Red, bookable = True, exception = False } )
-        , ( "237", { label = "237 Meeting Room", colour = Red, bookable = True, exception = False } )
-        , ( "238A", { label = "238A Meeting Room", colour = Red, bookable = True, exception = False } )
-        , ( "238B", { label = "238B Meeting Room", colour = Red, bookable = True, exception = False } )
-        , ( "238C", { label = "238C Group Room", colour = Blue, bookable = False, exception = False } )
-        , ( "239", { label = "239 Meeting Room", colour = Red, bookable = True, exception = False } )
-        , ( "240", { label = "240 Kitchen", colour = Yellow, bookable = False, exception = False } )
-        , ( "248", { label = "248 Meeting Room", colour = Red, bookable = True, exception = False } )
-        , ( "249", { label = "249 Group Room", colour = Blue, bookable = False, exception = False } )
-        , ( "250", { label = "250 Meeting Room", colour = Red, bookable = True, exception = False } )
-        , ( "251", { label = "251 Lecture Room", colour = Red, bookable = True, exception = False } )
-        , ( "306", { label = "306 Group Room", colour = Blue, bookable = False, exception = False } )
-        , ( "307", { label = "307 Thorsten's Room", colour = Red, bookable = False, exception = True } )
-        , ( "308", { label = "308 Group Room", colour = Blue, bookable = False, exception = False } )
-        , ( "310", { label = "310 Telephone Room", colour = Red, bookable = True, exception = False } )
-        , ( "312", { label = "312 Library", colour = Yellow, bookable = False, exception = False } )
-        , ( "313", { label = "313 Meeting Room", colour = Red, bookable = True, exception = False } )
-        , ( "314", { label = "314 Office", colour = Green, bookable = False, exception = False } )
-        , ( "315", { label = "315 Office", colour = Green, bookable = False, exception = False } )
-        , ( "316", { label = "316 Telephone Room", colour = Red, bookable = True, exception = False } )
-        , ( "321", { label = "321 Meeting Room", colour = Red, bookable = True, exception = False } )
-        , ( "324", { label = "324 Lounge", colour = Blue, bookable = False, exception = False } )
-        , ( "324B", { label = "324B Group Room", colour = Green, bookable = False, exception = False } )
-        , ( "324C", { label = "324C Office", colour = Green, bookable = False, exception = False } )
-        , ( "324D", { label = "324D Office (SRC Leadership Representation Room)", colour = Green, bookable = False, exception = True } )
-        , ( "325", { label = "325 Office (Malin's Room)", colour = Yellow, bookable = False, exception = True } )
-        , ( "326", { label = "326 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "327", { label = "327 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "328", { label = "328 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "329", { label = "329 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "330", { label = "330 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "331", { label = "331 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "332", { label = "332 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "334", { label = "334 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "342A", { label = "342A Lounge", colour = Blue, bookable = False, exception = False } )
-        , ( "342B", { label = "342B Office", colour = Green, bookable = False, exception = False } )
-        , ( "342C", { label = "342C Telephone Room", colour = Red, bookable = True, exception = False } )
-        , ( "342D", { label = "342D Telephone Room", colour = Red, bookable = True, exception = False } )
-        , ( "342E", { label = "342E Office", colour = Green, bookable = False, exception = False } )
-        , ( "342F", { label = "342F Group Room", colour = Blue, bookable = False, exception = False } )
-        , ( "343", { label = "343 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "344", { label = "344 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "345", { label = "345 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "346", { label = "346 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "347", { label = "347 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "348", { label = "348 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "349", { label = "349 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "350", { label = "350 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "351", { label = "351 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "352", { label = "352 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "355", { label = "355 Meeting Room", colour = Red, bookable = True, exception = False } )
-        , ( "406", { label = "406 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "407", { label = "407 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "408", { label = "408 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "409", { label = "409 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "410", { label = "410 Telephone Room", colour = Red, bookable = True, exception = False } )
-        , ( "412", { label = "412 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "413", { label = "413 Office", colour = Yellow, bookable = False, exception = False } )
-        , ( "414", { label = "414 Office (Calle's Room)", colour = Yellow, bookable = False, exception = True } )
-        , ( "418", { label = "418 Telephone Room", colour = Red, bookable = True, exception = True } )
+        [ ( "106"
+          , { label = "106 Meeting Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = "M227 222h102.6v66.6h-102.6v-66.6z"
+            }
+          )
+        , ( "108"
+          , { label = "108 Archive"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "109"
+          , { label = "109 Secure Archive"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "110"
+          , { label = "110 Meditation Room"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "206"
+          , { label = "206 Telephone Room"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "208B"
+          , { label = "208B Telephone Room"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "208"
+          , { label = "208 Hall"
+            , colour = Blue
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "209"
+          , { label = "209 Group Room"
+            , colour = Blue
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "211"
+          , { label = "211 Office"
+            , colour = Green
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "212"
+          , { label = "212 Office"
+            , colour = Green
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "213"
+          , { label = "213 Office (Admin Room)"
+            , colour = Green
+            , bookable = False
+            , exception = True
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "214"
+          , { label = "214 Office"
+            , colour = Green
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "216"
+          , { label = "216 Lobby"
+            , colour = Blue
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "222"
+          , { label = "222 Massage/Sick Room"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "226"
+          , { label = "226 Meeting Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "237"
+          , { label = "237 Meeting Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "238A"
+          , { label = "238A Meeting Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "238B"
+          , { label = "238B Meeting Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "238C"
+          , { label = "238C Group Room"
+            , colour = Blue
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "239"
+          , { label = "239 Meeting Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "240"
+          , { label = "240 Kitchen"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "248"
+          , { label = "248 Meeting Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "249"
+          , { label = "249 Group Room"
+            , colour = Blue
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "250"
+          , { label = "250 Meeting Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "251"
+          , { label = "251 Lecture Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "306"
+          , { label = "306 Group Room"
+            , colour = Blue
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "307"
+          , { label = "307 Thorsten's Room"
+            , colour = Red
+            , bookable = False
+            , exception = True
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "308"
+          , { label = "308 Group Room"
+            , colour = Blue
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "310"
+          , { label = "310 Telephone Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "312"
+          , { label = "312 Library"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "313"
+          , { label = "313 Meeting Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "314"
+          , { label = "314 Office"
+            , colour = Green
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "315"
+          , { label = "315 Office"
+            , colour = Green
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "316"
+          , { label = "316 Telephone Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "321"
+          , { label = "321 Meeting Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "324"
+          , { label = "324 Lounge"
+            , colour = Blue
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "324B"
+          , { label = "324B Group Room"
+            , colour = Green
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "324C"
+          , { label = "324C Office"
+            , colour = Green
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "324D"
+          , { label = "324D Office (SRC Leadership Representation Room)"
+            , colour = Green
+            , bookable = False
+            , exception = True
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "325"
+          , { label = "325 Office (Malin's Room)"
+            , colour = Yellow
+            , bookable = False
+            , exception = True
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "326"
+          , { label = "326 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "327"
+          , { label = "327 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "328"
+          , { label = "328 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "329"
+          , { label = "329 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "330"
+          , { label = "330 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "331"
+          , { label = "331 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "332"
+          , { label = "332 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "334"
+          , { label = "334 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "342A"
+          , { label = "342A Lounge"
+            , colour = Blue
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "342B"
+          , { label = "342B Office"
+            , colour = Green
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "342C"
+          , { label = "342C Telephone Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "342D"
+          , { label = "342D Telephone Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "342E"
+          , { label = "342E Office"
+            , colour = Green
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "342F"
+          , { label = "342F Group Room"
+            , colour = Blue
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "343"
+          , { label = "343 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "344"
+          , { label = "344 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "345"
+          , { label = "345 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "346"
+          , { label = "346 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "347"
+          , { label = "347 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "348"
+          , { label = "348 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "349"
+          , { label = "349 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "350"
+          , { label = "350 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "351"
+          , { label = "351 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "352"
+          , { label = "352 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "355"
+          , { label = "355 Meeting Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "406"
+          , { label = "406 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "407"
+          , { label = "407 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "408"
+          , { label = "408 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "409"
+          , { label = "409 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "410"
+          , { label = "410 Telephone Room"
+            , colour = Red
+            , bookable = True
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "412"
+          , { label = "412 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "413"
+          , { label = "413 Office"
+            , colour = Yellow
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "414"
+          , { label = "414 Office (Calle's Room)"
+            , colour = Yellow
+            , bookable = False
+            , exception = True
+            , capacity = 0
+            , path = ""
+            }
+          )
+        , ( "418"
+          , { label = "418 Telephone Room"
+            , colour = Red
+            , bookable = True
+            , exception = True
+            , capacity = 0
+            , path = ""
+            }
+          )
         ]
