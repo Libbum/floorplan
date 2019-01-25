@@ -125,7 +125,7 @@ view model =
                         |> Html.map RoomMenu
                     ]
                 ]
-            , Map.floor1 model.selected
+            , Map.show model.selected
             ]
         ]
     }
