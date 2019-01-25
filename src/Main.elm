@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 import Browser exposing (Document)
+import Color
 import Dict exposing (Dict)
 import Html exposing (Html)
 import Html.Attributes as Attributes
@@ -8,7 +9,11 @@ import Html.Events
 import Icons
 import Map exposing (Colour(..), Floor(..), Room)
 import Selectize
+import TypedSvg exposing (path, svg)
+import TypedSvg.Attributes exposing (class, d, fill, stroke, strokeLinecap, strokeLinejoin, strokeWidth, width)
 import TypedSvg.Core exposing (Svg)
+import TypedSvg.Events exposing (onMouseLeave, onMouseOver)
+import TypedSvg.Types exposing (Fill(..), StrokeLinecap(..), StrokeLinejoin(..), px)
 
 
 main : Program {} Model Msg
@@ -29,6 +34,7 @@ type alias Model =
     { selected : Maybe Room
     , roomMenu : Selectize.State Room
     , floor : Floor
+    , statsRoom : Maybe Room
     }
 
 
@@ -37,6 +43,7 @@ init _ =
     ( { selected = Nothing
       , roomMenu = defaultMenu
       , floor = Two
+      , statsRoom = Nothing
       }
     , Cmd.none
     )
@@ -50,6 +57,8 @@ type Msg
     = RoomMenu (Selectize.Msg Room)
     | SelectRoom (Maybe Room)
     | ToggleFloor Floor
+    | MouseIn Room
+    | MouseOut
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -92,6 +101,12 @@ update msg model =
         ToggleFloor floor ->
             ( { model | floor = floor, selected = Nothing }, Cmd.none )
 
+        MouseIn room ->
+            ( { model | statsRoom = Just room }, Cmd.none )
+
+        MouseOut ->
+            ( { model | statsRoom = Nothing }, Cmd.none )
+
 
 andDo : Cmd msg -> ( model, Cmd msg ) -> ( model, Cmd msg )
 andDo cmd ( model, cmds ) =
@@ -105,7 +120,7 @@ andDo cmd ( model, cmds ) =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.none
 
 
@@ -134,7 +149,8 @@ view model =
                 ]
             ]
         , Html.div [] <| floors model.floor
-        , Map.show model.floor model.selected
+        , mapShow model.floor model.selected
+        , Html.div [] [ Html.text (Maybe.map (\r -> r.label) model.statsRoom |> Maybe.withDefault "") ]
         ]
     }
 
@@ -237,6 +253,43 @@ clearButton =
                 ]
                 [ Html.text "clear" ]
             ]
+
+
+
+--- Map
+
+
+mapShow : Floor -> Maybe Room -> Html Msg
+mapShow floor selected =
+    let
+        room =
+            case selected of
+                Just value ->
+                    Map.showRoom value
+
+                Nothing ->
+                    path [] []
+
+        ( box, floorPath, labels ) =
+            Map.floorData floor
+    in
+    svg
+        [ class [ "map" ]
+        , box
+        , width (px 400)
+        ]
+        (path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorPath ] []
+            :: floorHighlights floor
+            ++ [ room
+               , labels
+               ]
+        )
+
+
+floorHighlights : Floor -> List (Svg Msg)
+floorHighlights floor =
+    Map.filterFloor floor Map.building
+        |> List.map (\room -> path [ fill <| Map.paint room.colour False, d room.path, onMouseOver (MouseIn room), onMouseLeave MouseOut ] [])
 
 
 

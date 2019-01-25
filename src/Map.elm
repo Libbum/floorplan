@@ -1,41 +1,11 @@
-module Map exposing (Colour(..), Floor(..), Room, building, filterFloor, show)
+module Map exposing (Colour(..), Floor(..), Room, building, filterFloor, floorData, paint, showRoom)
 
 import Color
 import Dict exposing (Dict)
-import Html exposing (Html)
-import TypedSvg exposing (g, path, svg, text_)
-import TypedSvg.Attributes exposing (class, d, fill, fillOpacity, fontFamily, fontSize, height, stroke, strokeLinecap, strokeLinejoin, strokeWidth, viewBox, width, x, y)
+import TypedSvg exposing (g, path, text_)
+import TypedSvg.Attributes exposing (d, fill, fontFamily, fontSize, stroke, viewBox, x, y)
 import TypedSvg.Core exposing (Attribute, Svg, text)
-import TypedSvg.Types exposing (Fill(..), Opacity(..), StrokeLinecap(..), StrokeLinejoin(..), num, px)
-
-
-
---- Map
-
-
-show : Floor -> Maybe Room -> Html msg
-show floor selected =
-    let
-        room =
-            case selected of
-                Just value ->
-                    showRoom value
-
-                Nothing ->
-                    path [] []
-    in
-    svg
-        [ class [ "map" ]
-        , box floor
-        , width (px 400)
-        ]
-        ([ path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d (floorPath floor) ] []
-         ]
-            ++ floorHighlights floor
-            ++ [ room
-               , roomLabels floor
-               ]
-        )
+import TypedSvg.Types exposing (Fill(..), px)
 
 
 
@@ -107,14 +77,13 @@ filterFloor floor rooms =
         num =
             floorNumber floor
     in
-    Dict.filter (\key val -> String.startsWith (String.fromInt num) key) rooms
+    Dict.filter (\key _ -> String.startsWith (String.fromInt num) key) rooms
         |> Dict.values
 
 
-floorHighlights : Floor -> List (Svg msg)
-floorHighlights floor =
-    filterFloor floor building
-        |> List.map (\room -> path [ fill <| paint room.colour False, d room.path ] [])
+floorData : Floor -> ( Attribute a, String, Svg msg )
+floorData floor =
+    ( box floor, floorPath floor, roomLabels floor )
 
 
 
