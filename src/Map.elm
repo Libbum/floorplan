@@ -3,9 +3,9 @@ module Map exposing (Colour(..), Room, show)
 import Color
 import Dict exposing (Dict)
 import Html exposing (Html)
-import TypedSvg exposing (path, svg)
-import TypedSvg.Attributes exposing (class, d, fill, fillOpacity, height, stroke, strokeLinecap, strokeLinejoin, strokeWidth, viewBox, width)
-import TypedSvg.Core exposing (Attribute, Svg)
+import TypedSvg exposing (g, path, svg, text_)
+import TypedSvg.Attributes exposing (class, d, fill, fillOpacity, fontFamily, fontSize, height, stroke, strokeLinecap, strokeLinejoin, strokeWidth, viewBox, width, x, y)
+import TypedSvg.Core exposing (Attribute, Svg, text)
 import TypedSvg.Types exposing (Fill(..), Opacity(..), StrokeLinecap(..), StrokeLinejoin(..), num, px)
 
 
@@ -33,6 +33,12 @@ paint colour =
         Red ->
             Fill <| Color.rgba 0.9373 0.4431 0.451 0.2
 
+        Yellow ->
+            Fill <| Color.rgba 1 1 0 0.2
+
+        Clear ->
+            Fill <| Color.rgba 0.8 0.8 0.8 0.5
+
         _ ->
             FillNone
 
@@ -49,7 +55,7 @@ showRoom room =
 
 renderRoom : Colour -> String -> Svg msg
 renderRoom colour dpath =
-    path [ fill <| paint colour, d dpath ] []
+    path [ fill <| paint colour, stroke Color.red, d dpath ] []
 
 
 show : Maybe Room -> Html msg
@@ -76,10 +82,56 @@ show selected =
                 ]
                 [ path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d (floorPath floor) ] []
                 , room
+                , roomLabels floor
                 ]
 
         Nothing ->
             Html.text ""
+
+
+roomLabels : Int -> Svg msg
+roomLabels floor =
+    case floor of
+        1 ->
+            g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9) ]
+                [ text_ [ x (px 243.7), y (px 257) ] [ text "106 Basement" ]
+                , text_ [ x (px 235.3), y (px 379.6) ] [ text "108 Archive" ]
+                , text_ [ x (px 212.7), y (px 462.3) ] [ text "109 Secure Archive" ]
+                , text_ [ x (px 215.3), y (px 567) ] [ text "110 Meditation Room" ]
+                ]
+
+        4 ->
+            g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9) ]
+                [ text_ [ x (px 238), y (px 62) ] [ text "410" ]
+                , text_ [ x (px 238), y (px 72.7) ] [ text "Telephone" ]
+                , text_ [ x (px 238), y (px 83.6) ] [ text "Room" ]
+                , text_ [ x (px 78), y (px 379.2) ] [ text "418" ]
+                , text_ [ x (px 78), y (px 390.1) ] [ text "Telephone" ]
+                , text_ [ x (px 78), y (px 401) ] [ text "Room" ]
+                , text_ [ x (px 167.3), y (px 53.9) ] [ text "409" ]
+                , text_ [ x (px 167.3), y (px 64.8) ] [ text "Office" ]
+                , text_ [ x (px 62), y (px 60.5) ] [ text "408" ]
+                , text_ [ x (px 62), y (px 71.5) ] [ text "Office" ]
+                , text_ [ x (px 67.3), y (px 131.9) ] [ text "407" ]
+                , text_ [ x (px 67.3), y (px 142.8) ] [ text "Office" ]
+                , text_ [ x (px 88), y (px 223.2) ] [ text "406" ]
+                , text_ [ x (px 88), y (px 234.1) ] [ text "Office" ]
+                , text_ [ x (px 254.7), y (px 498.6) ] [ text "412" ]
+                , text_ [ x (px 254.7), y (px 509.5) ] [ text "Office" ]
+                , text_ [ x (px 70), y (px 441.2) ] [ text "402" ]
+                , text_ [ x (px 70), y (px 452.1) ] [ text "Shower" ]
+                , text_ [ x (px 36.7), y (px 463.9) ] [ text "415" ]
+                , text_ [ x (px 36.7), y (px 474.8) ] [ text "Toilet" ]
+                , text_ [ x (px 164.7), y (px 557.9) ] [ text "413" ]
+                , text_ [ x (px 164.7), y (px 568.8) ] [ text "Office" ]
+                , text_ [ x (px 88), y (px 535.2) ] [ text "414" ]
+                , text_ [ x (px 88), y (px 546.1) ] [ text "Office" ]
+                , text_ [ x (px 88), y (px 557) ] [ text "(Calle's" ]
+                , text_ [ x (px 88), y (px 567.9) ] [ text "Room)" ]
+                ]
+
+        _ ->
+            path [] []
 
 
 box : Int -> Attribute a

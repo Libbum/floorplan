@@ -251,11 +251,11 @@ building : Dict String Room
 building =
     Dict.fromList
         [ ( "106"
-          , { label = "106 Meeting Room"
+          , { label = "106 Basement"
             , colour = Red
             , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 6
             , path = "M227 222h102.6v66.6h-102.6v-66.6z"
             }
           )
@@ -265,7 +265,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 0
-            , path = ""
+            , path = "M192.667 349.667l135.666-.334.667 66.334-136.333.333v-66.333z"
             }
           )
         , ( "109"
@@ -274,7 +274,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 0
-            , path = ""
+            , path = "M192.85 427.75l119.4-.3v76.6h-100.2l.2-13.3h-19.9l.5-63z"
             }
           )
         , ( "110"
@@ -283,15 +283,15 @@ building =
             , bookable = False
             , exception = False
             , capacity = 0
-            , path = ""
+            , path = "M212.25 513.65l100-.4v111h-131.9v-77.5h24l-.4 42.7h8.1l.2-75.8z"
             }
           )
         , ( "206"
           , { label = "206 Telephone Room"
             , colour = Yellow
-            , bookable = False
+            , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 3
             , path = ""
             }
           )
@@ -300,7 +300,7 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 1
             , path = ""
             }
           )
@@ -309,7 +309,7 @@ building =
             , colour = Blue
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 2
             , path = ""
             }
           )
@@ -318,7 +318,7 @@ building =
             , colour = Blue
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 8
             , path = ""
             }
           )
@@ -327,7 +327,7 @@ building =
             , colour = Green
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 3
             , path = ""
             }
           )
@@ -336,7 +336,7 @@ building =
             , colour = Green
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 4
             , path = ""
             }
           )
@@ -345,7 +345,7 @@ building =
             , colour = Green
             , bookable = False
             , exception = True
-            , capacity = 0
+            , capacity = 4
             , path = ""
             }
           )
@@ -354,16 +354,16 @@ building =
             , colour = Green
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 4
             , path = ""
             }
           )
         , ( "216"
           , { label = "216 Lobby"
             , colour = Blue
-            , bookable = False
+            , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 30
             , path = ""
             }
           )
@@ -372,79 +372,79 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 2
             , path = ""
             }
           )
         , ( "226"
-          , { label = "226 Meeting Room"
+          , { label = "226 Calle's Old Room"
             , colour = Red
             , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 6
             , path = ""
             }
           )
         , ( "237"
-          , { label = "237 Meeting Room"
+          , { label = "237 Big Room in the Corner"
             , colour = Red
             , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 30
             , path = ""
             }
           )
         , ( "238A"
-          , { label = "238A Meeting Room"
+          , { label = "238A IT Support's Old Room"
             , colour = Red
             , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 4
             , path = ""
             }
           )
         , ( "238B"
-          , { label = "238B Meeting Room"
+          , { label = "238B The Smallest"
             , colour = Red
             , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 4
             , path = ""
             }
           )
         , ( "238C"
-          , { label = "238C Group Room"
+          , { label = "238C Inbetweeners"
             , colour = Blue
-            , bookable = False
+            , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 6
             , path = ""
             }
           )
         , ( "239"
-          , { label = "239 Meeting Room"
+          , { label = "239 Next to Kitchen"
             , colour = Red
             , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 20
             , path = ""
             }
           )
         , ( "240"
           , { label = "240 Kitchen"
             , colour = Yellow
-            , bookable = False
+            , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 40
             , path = ""
             }
           )
         , ( "248"
-          , { label = "248 Meeting Room"
+          , { label = "248 Board Room"
             , colour = Red
             , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 12
             , path = ""
             }
           )
@@ -453,25 +453,25 @@ building =
             , colour = Blue
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 12
             , path = ""
             }
           )
         , ( "250"
-          , { label = "250 Meeting Room"
+          , { label = "250 Old Communications Lab"
             , colour = Red
             , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 30
             , path = ""
             }
           )
         , ( "251"
-          , { label = "251 Lecture Room"
+          , { label = "251 Master's Lecture"
             , colour = Red
             , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 40
             , path = ""
             }
           )
@@ -480,7 +480,7 @@ building =
             , colour = Blue
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 12
             , path = ""
             }
           )
@@ -489,7 +489,7 @@ building =
             , colour = Red
             , bookable = False
             , exception = True
-            , capacity = 0
+            , capacity = 1
             , path = ""
             }
           )
@@ -498,16 +498,16 @@ building =
             , colour = Blue
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 6
             , path = ""
             }
           )
         , ( "310"
           , { label = "310 Telephone Room"
-            , colour = Red
-            , bookable = True
+            , colour = Yellow
+            , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 1
             , path = ""
             }
           )
@@ -516,16 +516,16 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 12
             , path = ""
             }
           )
         , ( "313"
-          , { label = "313 Meeting Room"
+          , { label = "313 Thomas' Old Room"
             , colour = Red
             , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 6
             , path = ""
             }
           )
@@ -534,7 +534,7 @@ building =
             , colour = Green
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 4
             , path = ""
             }
           )
@@ -543,25 +543,25 @@ building =
             , colour = Green
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 4
             , path = ""
             }
           )
         , ( "316"
           , { label = "316 Telephone Room"
             , colour = Red
-            , bookable = True
+            , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 4
             , path = ""
             }
           )
         , ( "321"
-          , { label = "321 Meeting Room"
+          , { label = "321 Corner North Attic"
             , colour = Red
             , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 10
             , path = ""
             }
           )
@@ -570,7 +570,7 @@ building =
             , colour = Blue
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 6
             , path = ""
             }
           )
@@ -579,7 +579,7 @@ building =
             , colour = Green
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 10
             , path = ""
             }
           )
@@ -588,7 +588,7 @@ building =
             , colour = Green
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 3
             , path = ""
             }
           )
@@ -597,7 +597,7 @@ building =
             , colour = Green
             , bookable = False
             , exception = True
-            , capacity = 0
+            , capacity = 3
             , path = ""
             }
           )
@@ -606,7 +606,7 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = True
-            , capacity = 0
+            , capacity = 1
             , path = ""
             }
           )
@@ -615,7 +615,7 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 1
             , path = ""
             }
           )
@@ -624,16 +624,16 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 1
             , path = ""
             }
           )
         , ( "328"
-          , { label = "328 Office"
+          , { label = "328 Office (ERC Management)"
             , colour = Yellow
             , bookable = False
-            , exception = False
-            , capacity = 0
+            , exception = True
+            , capacity = 1
             , path = ""
             }
           )
@@ -642,7 +642,7 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 1
             , path = ""
             }
           )
@@ -651,7 +651,7 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 1
             , path = ""
             }
           )
@@ -660,7 +660,7 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 2
             , path = ""
             }
           )
@@ -669,7 +669,7 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 2
             , path = ""
             }
           )
@@ -678,7 +678,7 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 2
             , path = ""
             }
           )
@@ -687,7 +687,7 @@ building =
             , colour = Blue
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 4
             , path = ""
             }
           )
@@ -696,25 +696,25 @@ building =
             , colour = Green
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 3
             , path = ""
             }
           )
         , ( "342C"
           , { label = "342C Telephone Room"
             , colour = Red
-            , bookable = True
+            , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 2
             , path = ""
             }
           )
         , ( "342D"
-          , { label = "342D Telephone Room"
+          , { label = "342D Small Talk Attic"
             , colour = Red
             , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 2
             , path = ""
             }
           )
@@ -723,7 +723,7 @@ building =
             , colour = Green
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 4
             , path = ""
             }
           )
@@ -732,25 +732,25 @@ building =
             , colour = Blue
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 8
             , path = ""
             }
           )
         , ( "343"
-          , { label = "343 Office"
+          , { label = "343 Miriams' Old Room"
             , colour = Yellow
-            , bookable = False
+            , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 1
             , path = ""
             }
           )
         , ( "344"
-          , { label = "344 Office"
+          , { label = "344 Bea's Old Room"
             , colour = Yellow
-            , bookable = False
+            , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 1
             , path = ""
             }
           )
@@ -759,7 +759,7 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 1
             , path = ""
             }
           )
@@ -768,7 +768,7 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 1
             , path = ""
             }
           )
@@ -777,7 +777,7 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 1
             , path = ""
             }
           )
@@ -786,7 +786,7 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 1
             , path = ""
             }
           )
@@ -795,7 +795,7 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 3
             , path = ""
             }
           )
@@ -804,16 +804,16 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 3
             , path = ""
             }
           )
         , ( "351"
-          , { label = "351 Office"
+          , { label = "351 PHD Crunch Time"
             , colour = Yellow
-            , bookable = False
+            , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 3
             , path = ""
             }
           )
@@ -822,17 +822,26 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
+            , capacity = 2
             , path = ""
             }
           )
         , ( "355"
-          , { label = "355 Meeting Room"
+          , { label = "355 Corner South Attic"
             , colour = Red
             , bookable = True
             , exception = False
-            , capacity = 0
+            , capacity = 8
             , path = ""
+            }
+          )
+        , ( "402"
+          , { label = "402 Shower"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 1
+            , path = "M69.25 422h26.5v20l-26.5 25v-45z"
             }
           )
         , ( "406"
@@ -840,8 +849,8 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
-            , path = ""
+            , capacity = 2
+            , path = "M67 180.25h67.25v81h-41.2l-.4 50.2h-25.1L67 180.25z"
             }
           )
         , ( "407"
@@ -849,8 +858,8 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
-            , path = ""
+            , capacity = 4
+            , path = "M4.75 101.05h123l-.5 77.25-96.1-.65-.4-47.2h-26v-29.4z"
             }
           )
         , ( "408"
@@ -858,8 +867,8 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
-            , path = ""
+            , capacity = 3
+            , path = "M127.75 5.35h-36v23.3h-61v39.4h-26v31.5l123-2V5.35z"
             }
           )
         , ( "409"
@@ -867,17 +876,17 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
-            , path = ""
+            , capacity = 4
+            , path = "M223.05 5.35h-92.7l-.5 87.9h10.4v26.8h61.1l21.7-21.6V5.35z"
             }
           )
         , ( "410"
           , { label = "410 Telephone Room"
             , colour = Red
-            , bookable = True
+            , bookable = False
             , exception = False
-            , capacity = 0
-            , path = ""
+            , capacity = 4
+            , path = "M307.45 94.05h-23.4v-65.4h-55.9v69.3l20.8 21.2h46.4l12.1 3.9v-29z"
             }
           )
         , ( "412"
@@ -885,8 +894,8 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
-            , path = ""
+            , capacity = 3
+            , path = "M226.05 424.55h58v45.9h23.8v62.8h-23.8v36.8h-58v-63.3h1.3l.4-20.3h-1.7v-61.9z"
             }
           )
         , ( "413"
@@ -894,8 +903,8 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = False
-            , capacity = 0
-            , path = ""
+            , capacity = 4
+            , path = "M223.05 621.55l.8-114.3h-90.1v114.3h89.3z"
             }
           )
         , ( "414"
@@ -903,17 +912,26 @@ building =
             , colour = Yellow
             , bookable = False
             , exception = True
-            , capacity = 0
-            , path = ""
+            , capacity = 2
+            , path = "M131.65 507.25h-47.2l-23.4 20.3v53.7h30.3v40.3h37.2l-.8-24.2 3.9-.5v-89.6z"
+            }
+          )
+        , ( "415"
+          , { label = "415 Toilet"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 1
+            , path = "M30.25 422l36.75-.5.25 46.75-29.25 28h-7.75V422z"
             }
           )
         , ( "418"
           , { label = "418 Telephone Room"
             , colour = Red
-            , bookable = True
+            , bookable = False
             , exception = True
-            , capacity = 0
-            , path = ""
+            , capacity = 2
+            , path = "M67.55 365.85h66.2v43.7h-66.2v-43.7z"
             }
           )
         ]
