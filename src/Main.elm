@@ -10,7 +10,7 @@ import Icons
 import Map exposing (Colour(..), Floor(..), Room)
 import Selectize
 import TypedSvg exposing (path, svg)
-import TypedSvg.Attributes exposing (class, d, fill, stroke, strokeLinecap, strokeLinejoin, strokeWidth, width)
+import TypedSvg.Attributes exposing (class, d, fill, height, stroke, strokeLinecap, strokeLinejoin, strokeWidth)
 import TypedSvg.Core exposing (Svg)
 import TypedSvg.Events exposing (onMouseLeave, onMouseOver)
 import TypedSvg.Types exposing (Fill(..), StrokeLinecap(..), StrokeLinejoin(..), px)
@@ -276,7 +276,7 @@ mapShow floor selected =
     svg
         [ class [ "map" ]
         , box
-        , width (px 400)
+        , height (px 800)
         ]
         (path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorPath ] []
             :: floorHighlights floor
