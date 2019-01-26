@@ -37,11 +37,15 @@ paint colour selected =
         Yellow ->
             Fill <| Color.rgba 1 1 0 opacity
 
-        Clear ->
-            Fill <| Color.rgba 0.8 0.8 0.8 (opacity - 0.2)
+        Blue ->
+            Fill <| Color.rgba 0 0.439 0.753 opacity
 
-        _ ->
-            FillNone
+        Green ->
+            Fill <| Color.rgba 0 0.69 0.314 opacity
+
+        Clear ->
+            --Fill <| Color.rgba 0.8 0.8 0.8 (opacity - 0.2)
+            Fill <| Color.rgba 0.8 0.8 0.8 opacity
 
 
 
@@ -119,6 +123,82 @@ roomLabels floor =
                 , text_ [ x (px 235.3), y (px 379.6) ] [ text "108 Archive" ]
                 , text_ [ x (px 212.7), y (px 462.3) ] [ text "109 Secure Archive" ]
                 , text_ [ x (px 215.3), y (px 567) ] [ text "110 Meditation Room" ]
+                ]
+
+        Two ->
+            g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9) ]
+                [ text_ [ x (px 1140.9), y (px 111.5) ] [ text "209 Group Room" ]
+                , text_ [ x (px 1224.4), y (px 211.6) ] [ text "208" ]
+                , text_ [ x (px 1224.4), y (px 223.9) ] [ text "Hall" ]
+                , text_ [ x (px 905.8), y (px 202.9) ] [ text "219" ]
+                , text_ [ x (px 905.8), y (px 215.2) ] [ text "Recycling" ]
+                , text_ [ x (px 905.8), y (px 227.4) ] [ text "Room" ]
+                , text_ [ x (px 994.7), y (px 508.5) ] [ text "233" ]
+                , text_ [ x (px 994.7), y (px 520.8) ] [ text "Coffee Room" ]
+                , text_ [ x (px 964.6), y (px 165.7) ] [ text "222" ]
+                , text_ [ x (px 964.6), y (px 178) ] [ text "Massage" ]
+                , text_ [ x (px 964.6), y (px 190.2) ] [ text "/ Sick Room" ]
+                , text_ [ x (px 986.7), y (px 93.7) ] [ text "226" ]
+                , text_ [ x (px 986.7), y (px 105.4) ] [ text "Calle's Old Room" ]
+                , text_ [ x (px 551), y (px 94.7) ] [ text "240" ]
+                , text_ [ x (px 551), y (px 107) ] [ text "Kitchen" ]
+                , text_ [ x (px 58.5), y (px 93.2) ] [ text "237" ]
+                , text_ [ x (px 58.5), y (px 105.4) ] [ text "Big Room in the Corner" ]
+                , text_ [ x (px 213), y (px 51.1) ] [ text "238A" ]
+                , text_ [ x (px 213), y (px 63.4) ] [ text "IT Support's" ]
+                , text_ [ x (px 213), y (px 75.7) ] [ text "Old Room" ]
+                , text_ [ x (px 235), y (px 137.3) ] [ text "238C" ]
+                , text_ [ x (px 235), y (px 149.6) ] [ text "Inbetweeners" ]
+                , text_ [ x (px 274.6), y (px 51.1) ] [ text "238B" ]
+                , text_ [ x (px 274.6), y (px 63.4) ] [ text "The Smallest" ]
+                , text_ [ x (px 885.1), y (px 358.4) ] [ text "216" ]
+                , text_ [ x (px 885.1), y (px 370.6) ] [ text "Lobby" ]
+                , text_ [ x (px 859.3), y (px 488.5) ] [ text "227" ]
+                , text_ [ x (px 859.3), y (px 500.8) ] [ text "Male" ]
+                , text_ [ x (px 859.3), y (px 513.1) ] [ text "Toilet" ]
+                , text_ [ x (px 975.6), y (px 231) ] [ text "220" ]
+                , text_ [ x (px 975.6), y (px 243.3) ] [ text "Toilet" ]
+                , text_ [ x (px 667.4), y (px 138) ] [ text "217" ]
+                , text_ [ x (px 667.4), y (px 150.2) ] [ text "Sho" ]
+                , text_ [ x (px 667.4), y (px 162.4) ] [ text "wer" ]
+                , text_ [ x (px 1056.7), y (px 152.9) ] [ text "221A" ]
+                , text_ [ x (px 1056.7), y (px 165.1) ] [ text "WC" ]
+                , text_ [ x (px 915.8), y (px 488.5) ] [ text "228" ]
+                , text_ [ x (px 915.7), y (px 500.8) ] [ text "Female" ]
+                , text_ [ x (px 915.8), y (px 513.1) ] [ text "Toilet" ]
+                , text_ [ x (px 1108), y (px 198.8) ] [ text "204" ]
+                , text_ [ x (px 1108), y (px 211) ] [ text "Toilet" ]
+                , text_ [ x (px 1178.2), y (px 199) ] [ text "208A" ]
+                , text_ [ x (px 1178.2), y (px 211.2) ] [ text "WC" ]
+                , text_ [ x (px 1177.9), y (px 236.2) ] [ text "208B" ]
+                , text_ [ x (px 1177.9), y (px 248.4) ] [ text "Tel" ]
+                , text_ [ x (px 1251), y (px 298.1) ] [ text "206" ]
+                , text_ [ x (px 1222), y (px 310.4) ] [ text "Telephone" ]
+                , text_ [ x (px 1241.7), y (px 322.6) ] [ text "Room" ]
+                , text_ [ x (px 696.7), y (px 38.9) ] [ text "242" ]
+                , text_ [ x (px 696.7), y (px 51.2) ] [ text "Copy Room" ]
+                , text_ [ x (px 711.7), y (px 684.7) ] [ text "253" ]
+                , text_ [ x (px 711.7), y (px 697) ] [ text "Copy Room" ]
+                , text_ [ x (px 1074.2), y (px 627.3) ] [ text "214" ]
+                , text_ [ x (px 1074.2), y (px 639.6) ] [ text "Office" ]
+                , text_ [ x (px 1209), y (px 425.7) ] [ text "211" ]
+                , text_ [ x (px 1209), y (px 438) ] [ text "Office" ]
+                , text_ [ x (px 1196.4), y (px 508.5) ] [ text "212" ]
+                , text_ [ x (px 1196.4), y (px 520.8) ] [ text "Office" ]
+                , text_ [ x (px 1199.1), y (px 599.4) ] [ text "213" ]
+                , text_ [ x (px 1199.1), y (px 611.7) ] [ text "Office" ]
+                , text_ [ x (px 1199.1), y (px 623.9) ] [ text "(Admin" ]
+                , text_ [ x (px 1201.5), y (px 636.2) ] [ text "Room)" ]
+                , text_ [ x (px 366.1), y (px 93.2) ] [ text "239" ]
+                , text_ [ x (px 366.1), y (px 105.4) ] [ text "Next to the Kitchen" ]
+                , text_ [ x (px 54.2), y (px 627.3) ] [ text "248" ]
+                , text_ [ x (px 54.2), y (px 639.6) ] [ text "Boardroom" ]
+                , text_ [ x (px 183), y (px 624) ] [ text "249" ]
+                , text_ [ x (px 183), y (px 636.2) ] [ text "Grouproom" ]
+                , text_ [ x (px 319.7), y (px 623.3) ] [ text "250" ]
+                , text_ [ x (px 319.7), y (px 635.6) ] [ text "0ld Communications Lab" ]
+                , text_ [ x (px 514.5), y (px 634) ] [ text "251" ]
+                , text_ [ x (px 514.5), y (px 646.2) ] [ text "Masters' Lecture Theatre" ]
                 ]
 
         Four ->
@@ -226,13 +306,31 @@ building =
             , path = "M212.25 513.65l100-.4v111h-131.9v-77.5h24l-.4 42.7h8.1l.2-75.8z"
             }
           )
+        , ( "204"
+          , { label = "204 Toilet"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 2
+            , path = "M1099.875 179.875l.4 42.4h72.9v-42.2l-73.3-.2z"
+            }
+          )
         , ( "206"
           , { label = "206 Telephone Room"
             , colour = Yellow
             , bookable = True
             , exception = False
             , capacity = 3
-            , path = ""
+            , path = "M1237.175 266.775h42.9l.6 66.6-74.5.4v-38.7h31v-28.3z"
+            }
+          )
+        , ( "208A"
+          , { label = "208A Toilet"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 1
+            , path = "M1178.675 179.875v43.5h19.1v-43.1l-19.1-.4z"
             }
           )
         , ( "208B"
@@ -241,7 +339,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
-            , path = ""
+            , path = "M1198.675 255.475l-.9-28.4h-19.1l.7 28.4h19.3z"
             }
           )
         , ( "208"
@@ -250,7 +348,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
-            , path = ""
+            , path = "M1263.575 254.875v-74.9h-62.7l-.2 74.9h62.9z"
             }
           )
         , ( "209"
@@ -259,7 +357,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 8
-            , path = ""
+            , path = "M1263.575 171.275v-113.5l-121.9-.7v3.1h-49.5v110.4l171.4.7z"
             }
           )
         , ( "211"
@@ -268,7 +366,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 3
-            , path = ""
+            , path = "M1168.775 395.175h111.3v66.3h-111l-.3-66.3z"
             }
           )
         , ( "212"
@@ -277,7 +375,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 4
-            , path = ""
+            , path = "M1263.575 472.875l-118.8.2v62.9h18.7l.4 13.5h99.7v-76.6z"
             }
           )
         , ( "213"
@@ -286,7 +384,7 @@ building =
             , bookable = False
             , exception = True
             , capacity = 4
-            , path = ""
+            , path = "M1163.675 558.675l99.9-.1v111.2l-99.9.3v-111.4z"
             }
           )
         , ( "214"
@@ -295,7 +393,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 4
-            , path = ""
+            , path = "M1017.375 599.575h85.9l-.3-7.9 53.2-.2-.5 78.6h-137.5l-.8-70.5z"
             }
           )
         , ( "216"
@@ -304,7 +402,43 @@ building =
             , bookable = True
             , exception = False
             , capacity = 30
-            , path = ""
+            , path = "M1012.575 462.175l-.3-195.4H834.74v-11.2l4.435.6v-88.4h-47.5v88h2.2v10.7l-2.2.3v195.4h220.9z"
+            }
+          )
+        , ( "217"
+          , { label = "217 Shower"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 1
+            , path = "M689.575 119.375h-26.6l.2 63.8h26.6l-.2-63.8z"
+            }
+          )
+        , ( "219"
+          , { label = "219 Recycling Room"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = "M899.175 167.775h52.8v87.8h-52.8v-87.8z"
+            }
+          )
+        , ( "220"
+          , { label = "220 Toilet"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 1
+            , path = "M962.575 255.475v-36.3l14.8-13.3 37.3.3-.1 49.3h-52z"
+            }
+          )
+        , ( "221A"
+          , { label = "221A Toilet"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 1
+            , path = "M1053.475 140.675v30.8l23.9-.6v-14.2l6.3-.2.3-15.8h-30.5z"
             }
           )
         , ( "222"
@@ -313,7 +447,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
-            , path = ""
+            , path = "M962.766 146.875l51.909.7v55.7h-37.2l-14.709 11v-67.4z"
             }
           )
         , ( "226"
@@ -322,7 +456,34 @@ building =
             , bookable = True
             , exception = False
             , capacity = 6
-            , path = ""
+            , path = "M962.766 57.075h120.809l.2 81.4h-121.2l.191-81.4z"
+            }
+          )
+        , ( "227"
+          , { label = "227 Male Toilet"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 2
+            , path = "M846.675 473.075v89.8l51.2-.5v-89.3h-51.2z"
+            }
+          )
+        , ( "228"
+          , { label = "228 Female Toilet"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 2
+            , path = "M900.575 473.075l.4 89.1 51 .4v-89.5h-51.4z"
+            }
+          )
+        , ( "233"
+          , { label = "233 Coffee Room"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 4
+            , path = "M962.575 473.075v76.4h118.1l-.2-76.4h-117.9z"
             }
           )
         , ( "237"
@@ -331,7 +492,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 30
-            , path = ""
+            , path = "M19.475 17.675h178v162.6l-74.6-.3v-3h-103.4v-159.3z"
             }
           )
         , ( "238A"
@@ -340,7 +501,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 4
-            , path = ""
+            , path = "M204.475 17.675h74.3v12.9h-10.9l.4 66.8-63.8-.6v-79.1z"
             }
           )
         , ( "238B"
@@ -349,7 +510,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 4
-            , path = ""
+            , path = "M271.175 32.875l11.1.4-.4-15.6h52.8l-.3 80.1-63.9-.9.7-64z"
             }
           )
         , ( "238C"
@@ -358,7 +519,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 6
-            , path = ""
+            , path = "M333.675 180.275v-80.7l-129.2 1.3v79.4h129.2z"
             }
           )
         , ( "239"
@@ -367,25 +528,34 @@ building =
             , bookable = True
             , exception = False
             , capacity = 20
-            , path = ""
+            , path = "M341.775 17.675h131.6v162.6l-131.6-.9v-161.7z"
             }
           )
         , ( "240"
           , { label = "240 Kitchen"
-            , colour = Yellow
+            , colour = Blue
             , bookable = True
             , exception = False
             , capacity = 40
-            , path = ""
+            , path = "M655.875 180.275v-162.6h-175.8v162.2l175.8.4z"
+            }
+          )
+        , ( "242"
+          , { label = "242 Copy Room"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = "M662.975 17.675h118.3l.2 47.7-118.5-.1v-47.6z"
             }
           )
         , ( "248"
-          , { label = "248 Board Room"
+          , { label = "248 Boardroom"
             , colour = Red
             , bookable = True
             , exception = False
             , capacity = 12
-            , path = ""
+            , path = "M19.475 552.275l93.7-.4v-3.1h26.8v162.2l-120.5.2v-158.9z"
             }
           )
         , ( "249"
@@ -394,7 +564,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 12
-            , path = ""
+            , path = "M147.075 548.775h131.7v162.2h-131.7v-162.2z"
             }
           )
         , ( "250"
@@ -403,16 +573,25 @@ building =
             , bookable = True
             , exception = False
             , capacity = 30
-            , path = ""
+            , path = "M286.075 548.775h175.3l-.2 54.3q-7.02 19.273-7.175 30.3-.155 11.027 7.231 32.437l-.056 45.163h-175.1v-162.2z"
             }
           )
         , ( "251"
-          , { label = "251 Master's Lecture"
+          , { label = "251 Masters' Lecture"
             , colour = Red
             , bookable = True
             , exception = False
             , capacity = 40
-            , path = ""
+            , path = "M464.624 662.062q-5.879-18.338-5.849-28.187.03-9.849 6.017-27.876l.183-60.924 58.5-.3.1-4.6h138.113v5.424l28.587.076-.5 53.3q9.213 19.762 9.2 32.7-.013 12.937-9.2 38.1v41.4l-225.3.5.149-49.613z"
+            }
+          )
+        , ( "253"
+          , { label = "253 Copy Room"
+            , colour = Clear
+            , bookable = False
+            , exception = False
+            , capacity = 0
+            , path = "M692.975 711.175l-.1-39.2 3.9-8.4h84.7v47.6h-88.5z"
             }
           )
         , ( "306"
