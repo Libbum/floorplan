@@ -26,3 +26,6 @@ prodcs: src/floorplan.css
 	crass src/floorplan.css --optimize > dist/floorplan.css
 
 prod: prodjs prodcs
+
+deploy: prod
+	rsync -avr --chown=www-data:www-data --checksum --delete -e ssh dist/ AkashaR:neophilus/floorplan
