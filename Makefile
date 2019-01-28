@@ -1,6 +1,6 @@
-TARGETS := dist/floorplan.js
+TARGETS := dist/floorplan.js dist/floorplan.css
 
-.PHONY: clean build rebuild
+.PHONY: clean build rebuild prod
 
 rebuild: clean build
 
@@ -16,3 +16,13 @@ serve: src/Main.elm
 debug: src/Main.elm
 	elm-live src/Main.elm -d dist --pushstate --open -- --output=dist/floorplan.js --debug
 
+dist/floorplan.min.js: build
+	uglifyjs dist/floorplan.js --compress 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9,A2,A3,A4,A5,A6,A7,A8,A9",pure_getters,keep_fargs=false,unsafe_comps,unsafe' | uglifyjs --mangle --output=dist/floorplan.min.js
+
+prodjs: dist/floorplan.min.js
+	mv dist/floorplan.min.js dist/floorplan.js
+
+prodcs: src/floorplan.css
+	crass src/floorplan.css --optimize > dist/floorplan.css
+
+prod: prodjs prodcs
