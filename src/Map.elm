@@ -1,10 +1,10 @@
-module Map exposing (Colour(..), Floor(..), Room, building, colourToString, filterFloor, floorData, paint, showRoom)
+module Map exposing (Colour(..), Floor(..), Room, building, colourToString, filterFloor, floorData, paint, roomTitle, showRoom)
 
 import Color
 import Dict exposing (Dict)
 import Set exposing (Set)
-import TypedSvg exposing (g, path, text_)
-import TypedSvg.Attributes exposing (d, fill, fontFamily, fontSize, stroke, viewBox, x, y)
+import TypedSvg exposing (g, path, text_, title)
+import TypedSvg.Attributes exposing (class, d, fill, fontFamily, fontSize, stroke, viewBox, x, y)
 import TypedSvg.Core exposing (Attribute, Svg, text)
 import TypedSvg.Types exposing (Fill(..), px)
 
@@ -128,14 +128,36 @@ type alias Room =
     }
 
 
+roomTitle : Room -> Svg msg
+roomTitle room =
+    title []
+        [ text
+            (if room.bookable then
+                "Bookable\n"
+
+             else
+                "Not Bookable\n"
+            )
+        , text
+            (if room.capacity > 0 then
+                "Capacity: " ++ String.fromInt room.capacity ++ "\n"
+
+             else
+                ""
+            )
+        , text
+            (if room.exception then
+                "Note: This room has exceptions"
+
+             else
+                ""
+            )
+        ]
+
+
 showRoom : Room -> Svg msg
 showRoom room =
-    renderRoom room.colour room.path
-
-
-renderRoom : Colour -> String -> Svg msg
-renderRoom colour dpath =
-    path [ fill <| paint colour True, stroke Color.red, d dpath ] []
+    path [ class [ "stats" ], fill <| paint room.colour True, stroke Color.red, d room.path ] [ roomTitle room ]
 
 
 roomLabels : Floor -> Svg msg

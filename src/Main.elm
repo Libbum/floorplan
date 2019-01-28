@@ -10,9 +10,9 @@ import Icons
 import Map exposing (Colour(..), Floor(..), Room)
 import Selectize
 import Set exposing (Set)
-import TypedSvg exposing (path, svg)
+import TypedSvg exposing (path, svg, text_)
 import TypedSvg.Attributes exposing (class, d, fill, height, stroke, strokeLinecap, strokeLinejoin, strokeWidth)
-import TypedSvg.Core exposing (Svg)
+import TypedSvg.Core exposing (Svg, text)
 import TypedSvg.Events exposing (onMouseLeave, onMouseOver)
 import TypedSvg.Types exposing (Fill(..), StrokeLinecap(..), StrokeLinejoin(..), px)
 
@@ -35,7 +35,7 @@ type alias Model =
     { selected : Maybe Room
     , roomMenu : Selectize.State Room
     , floor : Floor
-    , statsRoom : Maybe Room
+    , hoverRoom : Maybe Room
     , colourFilter : Set String
     , bookableFilter : ( Bool, Bool )
     }
@@ -53,7 +53,7 @@ init _ =
     ( { selected = Nothing
       , roomMenu = filteredMenu colours bookableFilter
       , floor = Two
-      , statsRoom = Nothing
+      , hoverRoom = Nothing
       , colourFilter = colours
       , bookableFilter = bookableFilter
       }
@@ -149,14 +149,25 @@ update msg model =
 
                         _ ->
                             model.bookableFilter
+
+                newSelection =
+                    Maybe.andThen
+                        (\r ->
+                            if (label == "Bookable" && r.bookable) || (label == "Not Bookable" && not r.bookable) then
+                                Nothing
+
+                            else
+                                Just r
+                        )
+                        model.selected
             in
-            ( { model | roomMenu = filteredMenu model.colourFilter newBookable, bookableFilter = newBookable }, Cmd.none )
+            ( { model | roomMenu = filteredMenu model.colourFilter newBookable, bookableFilter = newBookable, selected = newSelection }, Cmd.none )
 
         MouseIn room ->
-            ( { model | statsRoom = Just room }, Cmd.none )
+            ( { model | hoverRoom = Just room }, Cmd.none )
 
         MouseOut ->
-            ( { model | statsRoom = Nothing }, Cmd.none )
+            ( { model | hoverRoom = Nothing }, Cmd.none )
 
 
 andDo : Cmd msg -> ( model, Cmd msg ) -> ( model, Cmd msg )
@@ -202,8 +213,7 @@ view model =
         , Html.div [] <| floors model.floor
         , Html.div [ Attributes.class "darkbg" ] <| coloursSelect model.colourFilter
         , Html.div [] <| bookableSelect model.bookableFilter
-        , mapShow model.colourFilter model.bookableFilter model.floor model.selected
-        , Html.div [] [ Html.text (Maybe.map (\r -> r.label) model.statsRoom |> Maybe.withDefault "") ]
+        , mapShow model.colourFilter model.bookableFilter model.floor model.selected model.hoverRoom
         ]
     }
 
@@ -312,8 +322,8 @@ clearButton =
 --- Map
 
 
-mapShow : Set String -> ( Bool, Bool ) -> Floor -> Maybe Room -> Html Msg
-mapShow colours bookableFilter floor selected =
+mapShow : Set String -> ( Bool, Bool ) -> Floor -> Maybe Room -> Maybe Room -> Html Msg
+mapShow colours bookableFilter floor selected hover =
     let
         room =
             case selected of
@@ -332,17 +342,30 @@ mapShow colours bookableFilter floor selected =
         , height (px 800)
         ]
         (path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorPath ] []
-            :: floorHighlights colours bookableFilter floor
+            :: floorHighlights colours bookableFilter floor hover
             ++ [ room
                , labels
                ]
         )
 
 
-floorHighlights : Set String -> ( Bool, Bool ) -> Floor -> List (Svg Msg)
-floorHighlights colours bookableFilter floor =
+floorHighlights : Set String -> ( Bool, Bool ) -> Floor -> Maybe Room -> List (Svg Msg)
+floorHighlights colours bookableFilter floor hover =
     Map.filterFloor colours bookableFilter floor Map.building
-        |> List.map (\room -> path [ fill <| Map.paint room.colour False, d room.path, onMouseOver (MouseIn room), onMouseLeave MouseOut ] [])
+        |> List.map
+            (\room ->
+                let
+                    title =
+                        case hover of
+                            Just stats ->
+                                Map.roomTitle room
+
+                            Nothing ->
+                                text ""
+                in
+                path [ fill <| Map.paint room.colour False, d room.path, onMouseOver (MouseIn room), onMouseLeave MouseOut ]
+                    [ title ]
+            )
 
 
 
