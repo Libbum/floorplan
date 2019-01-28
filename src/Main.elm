@@ -195,24 +195,18 @@ view model =
     { title = "Src Floorplan"
     , body =
         [ Html.div
-            [ Attributes.style "display" "flex"
-            , Attributes.style "flex-flow" "column"
-            ]
-            [ Html.div
-                [ Attributes.class "container" ]
-                [ Html.div
-                    [ Attributes.style "width" "30rem" ]
-                    [ Selectize.view
-                        viewConfig
-                        model.selected
-                        model.roomMenu
-                        |> Html.map RoomMenu
-                    ]
+            [ Attributes.class "container" ]
+            [ Html.div [ Attributes.class "search" ]
+                [ Selectize.view
+                    viewConfig
+                    model.selected
+                    model.roomMenu
+                    |> Html.map RoomMenu
                 ]
+            , Html.div [] <| floors model.floor
+            , Html.div [] <| coloursSelect model.colourFilter
+            , Html.div [] <| bookableSelect model.bookableFilter
             ]
-        , Html.div [] <| floors model.floor
-        , Html.div [ Attributes.class "darkbg" ] <| coloursSelect model.colourFilter
-        , Html.div [] <| bookableSelect model.bookableFilter
         , mapShow model.colourFilter model.bookableFilter model.floor model.selected model.hoverRoom
         ]
     }
@@ -339,7 +333,6 @@ mapShow colours bookableFilter floor selected hover =
     svg
         [ class [ "map" ]
         , box
-        , height (px 800)
         ]
         (path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorPath ] []
             :: floorHighlights colours bookableFilter floor hover
@@ -374,7 +367,7 @@ floorHighlights colours bookableFilter floor hover =
 
 bookableSelect : ( Bool, Bool ) -> List (Html Msg)
 bookableSelect ( bookable, notBookable ) =
-    [ ( bookable, "Bookable" ), ( notBookable, "Not Bookable" ) ]
+    [ ( bookable, "Bookable" ), ( notBookable, "Not\u{2007}Bookable" ) ]
         |> List.map
             (\( type_, label ) ->
                 Html.label []

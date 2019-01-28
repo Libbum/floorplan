@@ -45,10 +45,10 @@ paint colour selected =
     let
         opacity =
             if selected then
-                0.5
+                0.6
 
             else
-                0.2
+                0.35
     in
     case colour of
         Red ->
@@ -64,8 +64,15 @@ paint colour selected =
             Fill <| Color.rgba 0 0.69 0.314 opacity
 
         Clear ->
-            --Fill <| Color.rgba 0.8 0.8 0.8 (opacity - 0.2)
-            Fill <| Color.rgba 0.8 0.8 0.8 opacity
+            let
+                clear =
+                    if selected then
+                        0.6
+
+                    else
+                        0
+            in
+            Fill <| Color.rgba 0.8 0.8 0.8 clear
 
 
 
