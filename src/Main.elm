@@ -144,7 +144,7 @@ update msg model =
                         "Bookable" ->
                             ( checked, Tuple.second model.bookableFilter )
 
-                        "Not Bookable" ->
+                        "Not\u{2007}Bookable" ->
                             ( Tuple.first model.bookableFilter, checked )
 
                         _ ->
@@ -325,7 +325,7 @@ mapShow colours bookableFilter floor selected hover =
                     Map.showRoom value
 
                 Nothing ->
-                    path [] []
+                    []
 
         ( box, floorPath, labels ) =
             Map.floorData floor
@@ -335,10 +335,9 @@ mapShow colours bookableFilter floor selected hover =
         , box
         ]
         (path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorPath ] []
+            :: labels
             :: floorHighlights colours bookableFilter floor hover
-            ++ [ room
-               , labels
-               ]
+            ++ room
         )
 
 
@@ -389,7 +388,7 @@ bookableSelect ( bookable, notBookable ) =
 
 coloursSelect : Set String -> List (Html Msg)
 coloursSelect colours =
-    [ Red, Blue, Green, Yellow ]
+    [ Red, Yellow, Blue, Green ]
         |> List.map
             (\c ->
                 let

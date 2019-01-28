@@ -7,13 +7,16 @@ rebuild: clean build
 clean:
 	@-rm -f $(TARGETS)
 
-build: src/Main.elm
+dist/floorplan.css: src/floorplan.css
+	cp src/floorplan.css dist/floorplan.css
+
+build: src/Main.elm dist/floorplan.css
 	elm make src/Main.elm --output=dist/floorplan.js --optimize
 
-serve: src/Main.elm
+serve: src/Main.elm dist/floorplan.css
 	elm-live src/Main.elm -d dist --pushstate --open -- --output=dist/floorplan.js --optimize
 
-debug: src/Main.elm
+debug: src/Main.elm dist/floorplan.css
 	elm-live src/Main.elm -d dist --pushstate --open -- --output=dist/floorplan.js --debug
 
 dist/floorplan.min.js: build
@@ -23,7 +26,7 @@ prodjs: dist/floorplan.min.js
 	mv dist/floorplan.min.js dist/floorplan.js
 
 prodcs: src/floorplan.css
-	crass src/floorplan.css --optimize > dist/floorplan.css
+	crass src/floorplan.css > dist/floorplan.css
 
 prod: prodjs prodcs
 

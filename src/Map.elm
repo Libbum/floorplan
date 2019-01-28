@@ -3,10 +3,10 @@ module Map exposing (Colour(..), Floor(..), Room, building, colourToString, filt
 import Color
 import Dict exposing (Dict)
 import Set exposing (Set)
-import TypedSvg exposing (g, path, text_, title)
-import TypedSvg.Attributes exposing (class, d, fill, fontFamily, fontSize, stroke, viewBox, x, y)
+import TypedSvg exposing (g, path, rect, text_, title)
+import TypedSvg.Attributes exposing (class, d, fill, fontFamily, fontSize, fontWeight, stroke, strokeWidth, viewBox, x, y)
 import TypedSvg.Core exposing (Attribute, Svg, text)
-import TypedSvg.Types exposing (Fill(..), px)
+import TypedSvg.Types exposing (Fill(..), FontWeight(..), px)
 
 
 
@@ -48,7 +48,7 @@ paint colour selected =
                 0.6
 
             else
-                0.35
+                0.3
     in
     case colour of
         Red ->
@@ -70,7 +70,7 @@ paint colour selected =
                         0.6
 
                     else
-                        0
+                        0.0
             in
             Fill <| Color.rgba 0.8 0.8 0.8 clear
 
@@ -162,16 +162,17 @@ roomTitle room =
         ]
 
 
-showRoom : Room -> Svg msg
+showRoom : Room -> List (Svg msg)
 showRoom room =
-    path [ class [ "stats" ], fill <| paint room.colour True, stroke Color.red, d room.path ] [ roomTitle room ]
+    [ path [ fill <| paint room.colour True, stroke Color.red, strokeWidth (px 4), d room.path ] [ roomTitle room ]
+    ]
 
 
 roomLabels : Floor -> Svg msg
 roomLabels floor =
     case floor of
         One ->
-            g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9) ]
+            g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9), fontWeight FontWeightBolder ]
                 [ text_ [ x (px 243.7), y (px 257) ] [ text "106 Basement" ]
                 , text_ [ x (px 235.3), y (px 379.6) ] [ text "108 Archive" ]
                 , text_ [ x (px 212.7), y (px 462.3) ] [ text "109 Secure Archive" ]
@@ -179,7 +180,7 @@ roomLabels floor =
                 ]
 
         Two ->
-            g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9) ]
+            g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9), fontWeight FontWeightBolder ]
                 [ text_ [ x (px 1140.9), y (px 111.5) ] [ text "209 Group Room" ]
                 , text_ [ x (px 1224.4), y (px 211.6) ] [ text "208" ]
                 , text_ [ x (px 1224.4), y (px 223.9) ] [ text "Hall" ]
@@ -255,7 +256,7 @@ roomLabels floor =
                 ]
 
         Three ->
-            g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9) ]
+            g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9), fontWeight FontWeightBolder ]
                 [ text_ [ x (px 1182.4), y (px 364.4) ] [ text "312 Library" ]
                 , text_ [ x (px 190.5), y (px 81.2) ] [ text "324 Lounge" ]
                 , text_ [ x (px 158), y (px 177.9) ] [ text "325 Office" ]
@@ -334,7 +335,7 @@ roomLabels floor =
                 ]
 
         Four ->
-            g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9) ]
+            g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9), fontWeight FontWeightBolder ]
                 [ text_ [ x (px 238), y (px 62) ] [ text "410" ]
                 , text_ [ x (px 238), y (px 72.7) ] [ text "Telephone" ]
                 , text_ [ x (px 238), y (px 83.6) ] [ text "Room" ]

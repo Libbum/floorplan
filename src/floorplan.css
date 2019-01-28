@@ -270,7 +270,7 @@ label {
 }
 
 .check-red {
-    padding-right: 1em;
+    padding-right: 0.3em;
 }
 
 .check-red > .icon {
@@ -292,11 +292,6 @@ label {
 label > .icon {
     padding-right: 0.5em;
     padding-left: 1em;
-}
-
-.stats {
-    position: relative;
-    display: inline-block;
 }
 
 .map {
