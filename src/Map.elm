@@ -1,7 +1,8 @@
-module Map exposing (Colour(..), Floor(..), Room, building, filterFloor, floorData, paint, showRoom)
+module Map exposing (Colour(..), Floor(..), Room, building, colourToString, filterFloor, floorData, paint, showRoom)
 
 import Color
 import Dict exposing (Dict)
+import Set exposing (Set)
 import TypedSvg exposing (g, path, text_)
 import TypedSvg.Attributes exposing (d, fill, fontFamily, fontSize, stroke, viewBox, x, y)
 import TypedSvg.Core exposing (Attribute, Svg, text)
@@ -18,6 +19,25 @@ type Colour
     | Green
     | Blue
     | Clear
+
+
+colourToString : Colour -> String
+colourToString colour =
+    case colour of
+        Red ->
+            "Red"
+
+        Blue ->
+            "Blue"
+
+        Green ->
+            "Green"
+
+        Yellow ->
+            "Yellow"
+
+        Clear ->
+            ""
 
 
 paint : Colour -> Bool -> Fill
@@ -75,13 +95,13 @@ floorNumber floor =
             4
 
 
-filterFloor : Floor -> Dict String Room -> List Room
-filterFloor floor rooms =
+filterFloor : Set String -> Floor -> Dict String Room -> List Room
+filterFloor colours floor rooms =
     let
         num =
             floorNumber floor
     in
-    Dict.filter (\key _ -> String.startsWith (String.fromInt num) key) rooms
+    Dict.filter (\key value -> String.startsWith (String.fromInt num) key && (Set.member (colourToString value.colour) colours || value.colour == Clear)) rooms
         |> Dict.values
 
 

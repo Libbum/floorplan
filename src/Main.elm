@@ -9,6 +9,7 @@ import Html.Events
 import Icons
 import Map exposing (Colour(..), Floor(..), Room)
 import Selectize
+import Set exposing (Set)
 import TypedSvg exposing (path, svg)
 import TypedSvg.Attributes exposing (class, d, fill, height, stroke, strokeLinecap, strokeLinejoin, strokeWidth)
 import TypedSvg.Core exposing (Svg)
@@ -35,15 +36,21 @@ type alias Model =
     , roomMenu : Selectize.State Room
     , floor : Floor
     , statsRoom : Maybe Room
+    , colourFilter : Set String
     }
 
 
 init : {} -> ( Model, Cmd Msg )
 init _ =
+    let
+        colours =
+            Set.fromList [ "Red", "Green", "Blue", "Yellow" ]
+    in
     ( { selected = Nothing
-      , roomMenu = defaultMenu
+      , roomMenu = filteredMenu colours
       , floor = Two
       , statsRoom = Nothing
+      , colourFilter = colours
       }
     , Cmd.none
     )
@@ -57,6 +64,7 @@ type Msg
     = RoomMenu (Selectize.Msg Room)
     | SelectRoom (Maybe Room)
     | ToggleFloor Floor
+    | FilterChange String Bool
     | MouseIn Room
     | MouseOut
 
@@ -100,6 +108,28 @@ update msg model =
 
         ToggleFloor floor ->
             ( { model | floor = floor, selected = Nothing }, Cmd.none )
+
+        FilterChange colour checked ->
+            let
+                newFilter =
+                    if checked then
+                        Set.insert colour model.colourFilter
+
+                    else
+                        Set.remove colour model.colourFilter
+
+                newSelection =
+                    Maybe.andThen
+                        (\r ->
+                            if Map.colourToString r.colour == colour then
+                                Nothing
+
+                            else
+                                Just r
+                        )
+                        model.selected
+            in
+            ( { model | colourFilter = newFilter, roomMenu = filteredMenu newFilter, selected = newSelection }, Cmd.none )
 
         MouseIn room ->
             ( { model | statsRoom = Just room }, Cmd.none )
@@ -149,7 +179,8 @@ view model =
                 ]
             ]
         , Html.div [] <| floors model.floor
-        , mapShow model.floor model.selected
+        , Html.div [ Attributes.class "darkbg" ] <| coloursSelect model.colourFilter
+        , mapShow model.colourFilter model.floor model.selected
         , Html.div [] [ Html.text (Maybe.map (\r -> r.label) model.statsRoom |> Maybe.withDefault "") ]
         ]
     }
@@ -159,12 +190,12 @@ view model =
 ---- CONFIGURATION
 
 
-defaultMenu : Selectize.State Room
-defaultMenu =
+filteredMenu : Set String -> Selectize.State Room
+filteredMenu colours =
     Selectize.closed
         "textfield-menu"
         (\room -> room.label)
-        (roomsSelect Map.building)
+        (roomsSelect colours Map.building)
 
 
 viewConfig : Selectize.ViewConfig Room
@@ -259,8 +290,8 @@ clearButton =
 --- Map
 
 
-mapShow : Floor -> Maybe Room -> Html Msg
-mapShow floor selected =
+mapShow : Set String -> Floor -> Maybe Room -> Html Msg
+mapShow colours floor selected =
     let
         room =
             case selected of
@@ -279,21 +310,50 @@ mapShow floor selected =
         , height (px 800)
         ]
         (path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorPath ] []
-            :: floorHighlights floor
+            :: floorHighlights colours floor
             ++ [ room
                , labels
                ]
         )
 
 
-floorHighlights : Floor -> List (Svg Msg)
-floorHighlights floor =
-    Map.filterFloor floor Map.building
+floorHighlights : Set String -> Floor -> List (Svg Msg)
+floorHighlights colours floor =
+    Map.filterFloor colours floor Map.building
         |> List.map (\room -> path [ fill <| Map.paint room.colour False, d room.path, onMouseOver (MouseIn room), onMouseLeave MouseOut ] [])
 
 
 
 ---- DATA
+
+
+coloursSelect : Set String -> List (Html Msg)
+coloursSelect colours =
+    [ Red, Blue, Green, Yellow ]
+        |> List.map
+            (\c ->
+                let
+                    label =
+                        Map.colourToString c
+
+                    isChecked =
+                        Set.member label colours
+                in
+                Html.label [ Attributes.class ("check-" ++ String.toLower label) ]
+                    [ Html.input
+                        [ Attributes.type_ "checkbox"
+                        , Html.Events.onCheck (FilterChange label)
+                        , Attributes.checked isChecked
+                        ]
+                        []
+                    , if isChecked then
+                        Icons.checkCircle
+
+                      else
+                        Icons.circle
+                    , Html.text label
+                    ]
+            )
 
 
 intToFloor : Floor -> Maybe Int -> Floor
@@ -358,15 +418,15 @@ floorLabel current =
             "Floor 4"
 
 
-roomsSelect : Dict String Room -> List (Selectize.Entry Room)
-roomsSelect rooms =
+roomsSelect : Set String -> Dict String Room -> List (Selectize.Entry Room)
+roomsSelect colours rooms =
     List.concat
         [ [ Selectize.divider "Floor 1" ]
-        , Map.filterFloor One rooms |> List.map Selectize.entry
+        , Map.filterFloor colours One rooms |> List.map Selectize.entry
         , [ Selectize.divider "Floor 2" ]
-        , Map.filterFloor Two rooms |> List.map Selectize.entry
+        , Map.filterFloor colours Two rooms |> List.map Selectize.entry
         , [ Selectize.divider "Floor 3" ]
-        , Map.filterFloor Three rooms |> List.map Selectize.entry
+        , Map.filterFloor colours Three rooms |> List.map Selectize.entry
         , [ Selectize.divider "Floor 4" ]
-        , Map.filterFloor Four rooms |> List.map Selectize.entry
+        , Map.filterFloor colours Four rooms |> List.map Selectize.entry
         ]

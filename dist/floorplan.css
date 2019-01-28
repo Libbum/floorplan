@@ -190,7 +190,7 @@ h3 {
 .selectize__icon {
   color: #808080;
 }
-input[type="radio"] {
+input[type="radio"], input[type="checkbox"] {
     display: none;
 }
 .icon {
@@ -213,7 +213,8 @@ input[type="radio"] {
   cursor: pointer;
 }
 
-.icon:hover, .icon:focus, .icon:active {
+
+.icon:hover, .icon:focus, .icon:active, input:checked ~ .icon {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
   stroke: #eb7125;
@@ -223,12 +224,46 @@ input[type="radio"] {
     transition: stroke .15s ease-in;
 }
 
-.icon:active {
-    stroke: #f3aa7d;
-}
 label {
     text-align: left;
     line-height: 2em;
+}
+
+.check-green > .icon {
+    stroke: rgba(0%, 69%, 31.4%, 50%);
+}
+
+.check-green > .icon:hover, .check-green > input[type="checkbox"]:checked ~ .icon {
+    stroke: rgba(0%, 69%, 31.4%, 80%);
+}
+
+.check-blue > .icon {
+    stroke: rgba(0%, 43.9%, 75.3%, 50%);
+}
+
+.check-blue > .icon:hover, .check-blue > input[type="checkbox"]:checked ~ .icon {
+    stroke: rgba(0%, 43.9%, 75.3%, 80%);
+}
+
+.check-red > .icon {
+    stroke: rgba(93.73%, 44.31%, 45.1%, 50%);
+}
+
+.check-red > .icon:hover, .check-red > input[type="checkbox"]:checked ~ .icon {
+    stroke: rgba(93.73%, 44.31%, 45.1%, 80%);
+}
+
+.check-yellow > .icon {
+    stroke: rgba(100%, 100%, 0%, 70%);
+}
+
+.check-yellow > .icon:hover, .check-yellow > input[type="checkbox"]:checked ~ .icon {
+    stroke: rgba(100%, 100%, 0%, 100%);
+}
+
+.darkbg {
+    display: block;
+    background-color: #ddd;
 }
 
 label > .icon {
