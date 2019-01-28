@@ -95,13 +95,17 @@ floorNumber floor =
             4
 
 
-filterFloor : Set String -> Floor -> Dict String Room -> List Room
-filterFloor colours floor rooms =
+filterFloor : Set String -> ( Bool, Bool ) -> Floor -> Dict String Room -> List Room
+filterFloor colours ( bookable, notBookable ) floor rooms =
     let
         num =
             floorNumber floor
     in
-    Dict.filter (\key value -> String.startsWith (String.fromInt num) key && (Set.member (colourToString value.colour) colours || value.colour == Clear)) rooms
+    Dict.filter
+        (\key value ->
+            String.startsWith (String.fromInt num) key && (Set.member (colourToString value.colour) colours || value.colour == Clear) && ((value.bookable && bookable) || (not value.bookable && notBookable))
+        )
+        rooms
         |> Dict.values
 
 

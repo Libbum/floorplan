@@ -37,6 +37,7 @@ type alias Model =
     , floor : Floor
     , statsRoom : Maybe Room
     , colourFilter : Set String
+    , bookableFilter : ( Bool, Bool )
     }
 
 
@@ -45,12 +46,16 @@ init _ =
     let
         colours =
             Set.fromList [ "Red", "Green", "Blue", "Yellow" ]
+
+        bookableFilter =
+            ( True, True )
     in
     ( { selected = Nothing
-      , roomMenu = filteredMenu colours
+      , roomMenu = filteredMenu colours bookableFilter
       , floor = Two
       , statsRoom = Nothing
       , colourFilter = colours
+      , bookableFilter = bookableFilter
       }
     , Cmd.none
     )
@@ -65,6 +70,7 @@ type Msg
     | SelectRoom (Maybe Room)
     | ToggleFloor Floor
     | FilterChange String Bool
+    | BookableChange String Bool
     | MouseIn Room
     | MouseOut
 
@@ -129,7 +135,22 @@ update msg model =
                         )
                         model.selected
             in
-            ( { model | colourFilter = newFilter, roomMenu = filteredMenu newFilter, selected = newSelection }, Cmd.none )
+            ( { model | colourFilter = newFilter, roomMenu = filteredMenu newFilter model.bookableFilter, selected = newSelection }, Cmd.none )
+
+        BookableChange label checked ->
+            let
+                newBookable =
+                    case label of
+                        "Bookable" ->
+                            ( checked, Tuple.second model.bookableFilter )
+
+                        "Not Bookable" ->
+                            ( Tuple.first model.bookableFilter, checked )
+
+                        _ ->
+                            model.bookableFilter
+            in
+            ( { model | roomMenu = filteredMenu model.colourFilter newBookable, bookableFilter = newBookable }, Cmd.none )
 
         MouseIn room ->
             ( { model | statsRoom = Just room }, Cmd.none )
@@ -180,7 +201,8 @@ view model =
             ]
         , Html.div [] <| floors model.floor
         , Html.div [ Attributes.class "darkbg" ] <| coloursSelect model.colourFilter
-        , mapShow model.colourFilter model.floor model.selected
+        , Html.div [] <| bookableSelect model.bookableFilter
+        , mapShow model.colourFilter model.bookableFilter model.floor model.selected
         , Html.div [] [ Html.text (Maybe.map (\r -> r.label) model.statsRoom |> Maybe.withDefault "") ]
         ]
     }
@@ -190,12 +212,12 @@ view model =
 ---- CONFIGURATION
 
 
-filteredMenu : Set String -> Selectize.State Room
-filteredMenu colours =
+filteredMenu : Set String -> ( Bool, Bool ) -> Selectize.State Room
+filteredMenu colours bookableFilter =
     Selectize.closed
         "textfield-menu"
         (\room -> room.label)
-        (roomsSelect colours Map.building)
+        (roomsSelect colours bookableFilter Map.building)
 
 
 viewConfig : Selectize.ViewConfig Room
@@ -290,8 +312,8 @@ clearButton =
 --- Map
 
 
-mapShow : Set String -> Floor -> Maybe Room -> Html Msg
-mapShow colours floor selected =
+mapShow : Set String -> ( Bool, Bool ) -> Floor -> Maybe Room -> Html Msg
+mapShow colours bookableFilter floor selected =
     let
         room =
             case selected of
@@ -310,21 +332,43 @@ mapShow colours floor selected =
         , height (px 800)
         ]
         (path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorPath ] []
-            :: floorHighlights colours floor
+            :: floorHighlights colours bookableFilter floor
             ++ [ room
                , labels
                ]
         )
 
 
-floorHighlights : Set String -> Floor -> List (Svg Msg)
-floorHighlights colours floor =
-    Map.filterFloor colours floor Map.building
+floorHighlights : Set String -> ( Bool, Bool ) -> Floor -> List (Svg Msg)
+floorHighlights colours bookableFilter floor =
+    Map.filterFloor colours bookableFilter floor Map.building
         |> List.map (\room -> path [ fill <| Map.paint room.colour False, d room.path, onMouseOver (MouseIn room), onMouseLeave MouseOut ] [])
 
 
 
 ---- DATA
+
+
+bookableSelect : ( Bool, Bool ) -> List (Html Msg)
+bookableSelect ( bookable, notBookable ) =
+    [ ( bookable, "Bookable" ), ( notBookable, "Not Bookable" ) ]
+        |> List.map
+            (\( type_, label ) ->
+                Html.label []
+                    [ Html.input
+                        [ Attributes.type_ "checkbox"
+                        , Html.Events.onCheck (BookableChange label)
+                        , Attributes.checked type_
+                        ]
+                        []
+                    , if type_ then
+                        Icons.checkCircle
+
+                      else
+                        Icons.circle
+                    , Html.text label
+                    ]
+            )
 
 
 coloursSelect : Set String -> List (Html Msg)
@@ -418,15 +462,15 @@ floorLabel current =
             "Floor 4"
 
 
-roomsSelect : Set String -> Dict String Room -> List (Selectize.Entry Room)
-roomsSelect colours rooms =
+roomsSelect : Set String -> ( Bool, Bool ) -> Dict String Room -> List (Selectize.Entry Room)
+roomsSelect colours bookableFilter rooms =
     List.concat
         [ [ Selectize.divider "Floor 1" ]
-        , Map.filterFloor colours One rooms |> List.map Selectize.entry
+        , Map.filterFloor colours bookableFilter One rooms |> List.map Selectize.entry
         , [ Selectize.divider "Floor 2" ]
-        , Map.filterFloor colours Two rooms |> List.map Selectize.entry
+        , Map.filterFloor colours bookableFilter Two rooms |> List.map Selectize.entry
         , [ Selectize.divider "Floor 3" ]
-        , Map.filterFloor colours Three rooms |> List.map Selectize.entry
+        , Map.filterFloor colours bookableFilter Three rooms |> List.map Selectize.entry
         , [ Selectize.divider "Floor 4" ]
-        , Map.filterFloor colours Four rooms |> List.map Selectize.entry
+        , Map.filterFloor colours bookableFilter Four rooms |> List.map Selectize.entry
         ]
