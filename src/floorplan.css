@@ -5,6 +5,10 @@ body {
     font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
     min-width: 860px;
 }
+abbr {
+    text-decoration: underline;
+    cursor: help;
+}
 .container {
     margin: 0 auto;
     max-width: 1460px;

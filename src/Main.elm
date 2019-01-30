@@ -388,9 +388,9 @@ bookableSelect ( bookable, notBookable ) =
 
 coloursSelect : Set String -> List (Html Msg)
 coloursSelect colours =
-    [ Red, Yellow, Blue, Green ]
+    [ ( Red, "Collaborative work, deep focus" ), ( Yellow, "Individual work, deep focus" ), ( Blue, "Collaborative work, medium focus" ), ( Green, "Individual work, medium focus" ) ]
         |> List.map
-            (\c ->
+            (\( c, title ) ->
                 let
                     label =
                         Map.colourToString c
@@ -410,7 +410,7 @@ coloursSelect colours =
 
                       else
                         Icons.circle
-                    , Html.text label
+                    , Html.abbr [ Attributes.title title ] [ Html.text label ]
                     ]
             )
 
