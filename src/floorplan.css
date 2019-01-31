@@ -5,10 +5,6 @@ body {
     font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
     min-width: 860px;
 }
-abbr {
-    text-decoration: underline;
-    cursor: help;
-}
 .container {
     margin: 0 auto;
     max-width: 1460px;
@@ -286,17 +282,18 @@ label {
 }
 
 .check-yellow > .icon {
-    stroke: rgba(100%, 100%, 0%, 70%);
+    stroke: rgba(100%, 100%, 0%, 50%);
 }
 
 .check-yellow > .icon:hover, .check-yellow > input[type="checkbox"]:checked ~ .icon {
-    stroke: rgba(100%, 100%, 0%, 100%);
+    stroke: rgba(100%, 100%, 0%, 80%);
 }
 
 label > .icon {
     padding-right: 0.5em;
     padding-left: 1em;
 }
+
 
 .map {
     margin: 0 auto;

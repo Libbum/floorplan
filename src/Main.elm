@@ -10,11 +10,11 @@ import Icons
 import Map exposing (Colour(..), Floor(..), Room)
 import Selectize
 import Set exposing (Set)
-import TypedSvg exposing (path, svg, text_)
-import TypedSvg.Attributes exposing (class, d, fill, height, stroke, strokeLinecap, strokeLinejoin, strokeWidth)
+import TypedSvg exposing (circle, g, path, svg, text_)
+import TypedSvg.Attributes exposing (alignmentBaseline, class, cx, cy, d, fill, fontFamily, fontSize, fontWeight, height, r, stroke, strokeLinecap, strokeLinejoin, strokeWidth, textAnchor, transform, width, x, y)
 import TypedSvg.Core exposing (Svg, text)
 import TypedSvg.Events exposing (onMouseLeave, onMouseOver)
-import TypedSvg.Types exposing (Fill(..), StrokeLinecap(..), StrokeLinejoin(..), px)
+import TypedSvg.Types exposing (AlignmentBaseline(..), AnchorAlignment(..), Fill(..), FontWeight(..), StrokeLinecap(..), StrokeLinejoin(..), Transform(..), px)
 
 
 main : Program {} Model Msg
@@ -327,37 +327,102 @@ mapShow colours bookableFilter floor selected hover =
                 Nothing ->
                     []
 
-        ( box, floorPath, labels ) =
+        floorData =
             Map.floorData floor
+
+        showRoom =
+            case selected of
+                Just _ ->
+                    selected
+
+                Nothing ->
+                    hover
     in
     svg
         [ class [ "map" ]
-        , box
+        , floorData.box
         ]
-        (path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorPath ] []
-            :: labels
-            :: floorHighlights colours bookableFilter floor hover
+        (path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorData.floorPath ] []
+            :: floorData.roomLabels
+            :: floorHighlights colours bookableFilter floor
+            ++ legend floorData.legendPosition showRoom
             ++ room
         )
 
 
-floorHighlights : Set String -> ( Bool, Bool ) -> Floor -> Maybe Room -> List (Svg Msg)
-floorHighlights colours bookableFilter floor hover =
+floorHighlights : Set String -> ( Bool, Bool ) -> Floor -> List (Svg Msg)
+floorHighlights colours bookableFilter floor =
     Map.filterFloor colours bookableFilter floor Map.building
         |> List.map
             (\room ->
-                let
-                    title =
-                        case hover of
-                            Just stats ->
-                                Map.roomTitle room
-
-                            Nothing ->
-                                text ""
-                in
-                path [ fill <| Map.paint room.colour False, d room.path, onMouseOver (MouseIn room), onMouseLeave MouseOut ]
-                    [ title ]
+                path [ fill <| Map.paint room.colour False, d room.path, onMouseOver (MouseIn room), onMouseLeave MouseOut ] []
             )
+
+
+legend : { x : Float, y : Float } -> Maybe Room -> List (Svg Msg)
+legend legendPosition room =
+    let
+        lx =
+            legendPosition.x
+
+        ly =
+            legendPosition.y
+
+        displayRoom =
+            case room of
+                Just rm ->
+                    roomDetails ( lx + 300, ly ) rm
+
+                Nothing ->
+                    path [] []
+    in
+    [ circle [ cx (px <| lx + 25), cy (px <| ly + 25), r (px 20), fill (Fill <| Color.rgba 0.9373 0.4431 0.451 0.3) ] []
+    , circle [ cx (px <| lx + 25), cy (px <| ly + 75), r (px 20), fill (Fill <| Color.rgba 1 1 0 0.3) ] []
+    , circle [ cx (px <| lx + 25), cy (px <| ly + 125), r (px 20), fill (Fill <| Color.rgba 0 0.439 0.753 0.3) ] []
+    , circle [ cx (px <| lx + 25), cy (px <| ly + 175), r (px 20), fill (Fill <| Color.rgba 0 0.69 0.314 0.3) ] []
+    , g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 16) ]
+        [ text_ [ x (px <| lx + 50), y (px <| ly + 29.5) ] [ text "Collaborative work, deep focus" ]
+        , text_ [ x (px <| lx + 50), y (px <| ly + 79.5) ] [ text "Individual work, deep focus" ]
+        , text_ [ x (px <| lx + 50), y (px <| ly + 129.5) ] [ text "Collaborative work, medium focus" ]
+        , text_ [ x (px <| lx + 50), y (px <| ly + 179.5) ] [ text "Individual work, medium focus" ]
+        , displayRoom
+        ]
+    ]
+
+
+roomDetails : ( Float, Float ) -> Room -> Svg msg
+roomDetails ( rx, ry ) room =
+    g [ transform [ Translate rx ry ], alignmentBaseline AlignmentMiddle, textAnchor AnchorMiddle ]
+        [ text_ [ x (px 100), y (px 50), fontWeight FontWeightBold ] [ text <| String.dropRight (String.length room.label - 27) room.label ]
+        , text_ [ x (px 100), y (px 70), fontWeight FontWeightBold ] [ text <| String.dropLeft 27 room.label ]
+        , text_ [ x (px 100), y (px 100) ]
+            [ text
+                (if room.bookable then
+                    "Bookable"
+
+                 else
+                    "Not Bookable"
+                )
+            ]
+        , text_ [ x (px 100), y (px 120) ]
+            [ text
+                (if room.capacity > 0 then
+                    "Capacity: " ++ String.fromInt room.capacity
+
+                 else
+                    ""
+                )
+            ]
+        , text_ [ x (px 100), y (px 140) ]
+            [ text
+                (if room.exception then
+                    "This room has exceptions"
+
+                 else
+                    ""
+                )
+            ]
+        ]
 
 
 
@@ -388,9 +453,9 @@ bookableSelect ( bookable, notBookable ) =
 
 coloursSelect : Set String -> List (Html Msg)
 coloursSelect colours =
-    [ ( Red, "Collaborative work, deep focus" ), ( Yellow, "Individual work, deep focus" ), ( Blue, "Collaborative work, medium focus" ), ( Green, "Individual work, medium focus" ) ]
+    [ Red, Yellow, Blue, Green ]
         |> List.map
-            (\( c, title ) ->
+            (\c ->
                 let
                     label =
                         Map.colourToString c
@@ -410,7 +475,7 @@ coloursSelect colours =
 
                       else
                         Icons.circle
-                    , Html.abbr [ Attributes.title title ] [ Html.text label ]
+                    , Html.text label
                     ]
             )
 
