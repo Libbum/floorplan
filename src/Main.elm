@@ -192,6 +192,15 @@ subscriptions _ =
 
 view : Model -> Document Msg
 view model =
+    let
+        showRoom =
+            case model.selected of
+                Just room ->
+                    model.selected
+
+                Nothing ->
+                    model.hoverRoom
+    in
     { title = "Src Floorplan"
     , body =
         [ Html.div
@@ -207,7 +216,10 @@ view model =
             , Html.div [] <| coloursSelect model.colourFilter
             , Html.div [] <| bookableSelect model.bookableFilter
             ]
-        , mapShow model.colourFilter model.bookableFilter model.floor model.selected model.hoverRoom
+        , Html.div [ Attributes.id "map" ]
+            [ mapShow model.colourFilter model.bookableFilter model.floor model.selected
+            , Html.div [ Attributes.class "legend" ] <| legend showRoom
+            ]
         ]
     }
 
@@ -316,8 +328,8 @@ clearButton =
 --- Map
 
 
-mapShow : Set String -> ( Bool, Bool ) -> Floor -> Maybe Room -> Maybe Room -> Html Msg
-mapShow colours bookableFilter floor selected hover =
+mapShow : Set String -> ( Bool, Bool ) -> Floor -> Maybe Room -> Html Msg
+mapShow colours bookableFilter floor selected =
     let
         room =
             case selected of
@@ -336,27 +348,17 @@ mapShow colours bookableFilter floor selected hover =
         ]
         (path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorPath ] []
             :: labels
-            :: floorHighlights colours bookableFilter floor hover
+            :: floorHighlights colours bookableFilter floor
             ++ room
         )
 
 
-floorHighlights : Set String -> ( Bool, Bool ) -> Floor -> Maybe Room -> List (Svg Msg)
-floorHighlights colours bookableFilter floor hover =
+floorHighlights : Set String -> ( Bool, Bool ) -> Floor -> List (Svg Msg)
+floorHighlights colours bookableFilter floor =
     Map.filterFloor colours bookableFilter floor Map.building
         |> List.map
             (\room ->
-                let
-                    title =
-                        case hover of
-                            Just stats ->
-                                Map.roomTitle room
-
-                            Nothing ->
-                                text ""
-                in
-                path [ fill <| Map.paint room.colour False, d room.path, onMouseOver (MouseIn room), onMouseLeave MouseOut ]
-                    [ title ]
+                path [ fill <| Map.paint room.colour False, d room.path, onMouseOver (MouseIn room), onMouseLeave MouseOut ] []
             )
 
 
@@ -388,9 +390,9 @@ bookableSelect ( bookable, notBookable ) =
 
 coloursSelect : Set String -> List (Html Msg)
 coloursSelect colours =
-    [ ( Red, "Collaborative work, deep focus" ), ( Yellow, "Individual work, deep focus" ), ( Blue, "Collaborative work, medium focus" ), ( Green, "Individual work, medium focus" ) ]
+    [ Red, Yellow, Blue, Green ]
         |> List.map
-            (\( c, title ) ->
+            (\c ->
                 let
                     label =
                         Map.colourToString c
@@ -410,9 +412,56 @@ coloursSelect colours =
 
                       else
                         Icons.circle
-                    , Html.abbr [ Attributes.title title ] [ Html.text label ]
+                    , Html.text label
                     ]
             )
+
+
+legend : Maybe Room -> List (Html Msg)
+legend room =
+    [ Html.div []
+        [ Html.div [ Attributes.class "legend-red" ] [ Icons.circle, Html.text "Collaborative work, deep focus" ]
+        , Html.div [ Attributes.class "legend-yellow" ] [ Icons.circle, Html.text "Individual work, deep focus" ]
+        , Html.div [ Attributes.class "legend-blue" ] [ Icons.circle, Html.text "Collaborative work, medium focus" ]
+        , Html.div [ Attributes.class "legend-green" ] [ Icons.circle, Html.text "Individual work, medium focus" ]
+        ]
+    , roomDetails room
+    ]
+
+
+roomDetails : Maybe Room -> Html Msg
+roomDetails maybeRoom =
+    case maybeRoom of
+        Just room ->
+            Html.div [ Attributes.class "description" ]
+                [ Html.h3 [] [ Html.text room.label ]
+                , Html.text
+                    (if room.bookable then
+                        "Bookable\n"
+
+                     else
+                        "Not Bookable\n"
+                    )
+                , Html.br [] []
+                , Html.text
+                    (if room.capacity > 0 then
+                        "Capacity: " ++ String.fromInt room.capacity ++ "\n"
+
+                     else
+                        ""
+                    )
+                , Html.br [] []
+                , Html.text
+                    (if room.exception then
+                        "Note: This room has exceptions"
+
+                     else
+                        ""
+                    )
+                ]
+
+        Nothing ->
+            Html.text ""
 
 
 intToFloor : Floor -> Maybe Int -> Floor

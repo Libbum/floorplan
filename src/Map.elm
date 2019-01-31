@@ -1,4 +1,4 @@
-module Map exposing (Colour(..), Floor(..), Room, building, colourToString, filterFloor, floorData, paint, roomTitle, showRoom)
+module Map exposing (Colour(..), Floor(..), Room, building, colourToString, filterFloor, floorData, paint, showRoom)
 
 import Color
 import Dict exposing (Dict)
@@ -135,36 +135,9 @@ type alias Room =
     }
 
 
-roomTitle : Room -> Svg msg
-roomTitle room =
-    title []
-        [ text
-            (if room.bookable then
-                "Bookable\n"
-
-             else
-                "Not Bookable\n"
-            )
-        , text
-            (if room.capacity > 0 then
-                "Capacity: " ++ String.fromInt room.capacity ++ "\n"
-
-             else
-                ""
-            )
-        , text
-            (if room.exception then
-                "Note: This room has exceptions"
-
-             else
-                ""
-            )
-        ]
-
-
 showRoom : Room -> List (Svg msg)
 showRoom room =
-    [ path [ fill <| paint room.colour True, stroke Color.red, strokeWidth (px 4), d room.path ] [ roomTitle room ]
+    [ path [ fill <| paint room.colour True, stroke Color.red, strokeWidth (px 4), d room.path ] []
     ]
 
 
