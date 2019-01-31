@@ -116,9 +116,21 @@ filterFloor colours ( bookable, notBookable ) floor rooms =
         |> Dict.values
 
 
-floorData : Floor -> ( Attribute a, String, Svg msg )
+type alias FloorData a msg =
+    { box : Attribute a
+    , floorPath : String
+    , roomLabels : Svg msg
+    , legendPosition : { x : Float, y : Float }
+    }
+
+
+floorData : Floor -> FloorData a msg
 floorData floor =
-    ( box floor, floorPath floor, roomLabels floor )
+    { box = box floor
+    , floorPath = floorPath floor
+    , roomLabels = roomLabels floor
+    , legendPosition = legendPosition floor
+    }
 
 
 
@@ -342,7 +354,7 @@ box : Floor -> Attribute a
 box floor =
     case floor of
         One ->
-            viewBox 0 0 340.1 636.7
+            viewBox -200 0 340.1 636.7
 
         Two ->
             viewBox 0 0 1321.05 722.025
@@ -351,7 +363,23 @@ box floor =
             viewBox 0 0 1285.733 729.7
 
         Four ->
-            viewBox 0 0 335.8 627
+            viewBox -220 0 335.8 627
+
+
+legendPosition : Floor -> { x : Float, y : Float }
+legendPosition floor =
+    case floor of
+        One ->
+            { x = -450, y = 212 }
+
+        Two ->
+            { x = 100, y = 265 }
+
+        Three ->
+            { x = 100, y = 265 }
+
+        Four ->
+            { x = -470, y = 212 }
 
 
 floorPath : Floor -> String

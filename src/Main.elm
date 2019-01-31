@@ -10,11 +10,11 @@ import Icons
 import Map exposing (Colour(..), Floor(..), Room)
 import Selectize
 import Set exposing (Set)
-import TypedSvg exposing (path, svg, text_)
-import TypedSvg.Attributes exposing (class, d, fill, height, stroke, strokeLinecap, strokeLinejoin, strokeWidth)
+import TypedSvg exposing (circle, g, path, svg, text_)
+import TypedSvg.Attributes exposing (alignmentBaseline, class, cx, cy, d, fill, fontFamily, fontSize, fontWeight, height, r, stroke, strokeLinecap, strokeLinejoin, strokeWidth, textAnchor, transform, width, x, y)
 import TypedSvg.Core exposing (Svg, text)
 import TypedSvg.Events exposing (onMouseLeave, onMouseOver)
-import TypedSvg.Types exposing (Fill(..), StrokeLinecap(..), StrokeLinejoin(..), px)
+import TypedSvg.Types exposing (AlignmentBaseline(..), AnchorAlignment(..), Fill(..), FontWeight(..), StrokeLinecap(..), StrokeLinejoin(..), Transform(..), px)
 
 
 main : Program {} Model Msg
@@ -192,15 +192,6 @@ subscriptions _ =
 
 view : Model -> Document Msg
 view model =
-    let
-        showRoom =
-            case model.selected of
-                Just room ->
-                    model.selected
-
-                Nothing ->
-                    model.hoverRoom
-    in
     { title = "Src Floorplan"
     , body =
         [ Html.div
@@ -216,10 +207,7 @@ view model =
             , Html.div [] <| coloursSelect model.colourFilter
             , Html.div [] <| bookableSelect model.bookableFilter
             ]
-        , Html.div [ Attributes.id "map" ]
-            [ mapShow model.colourFilter model.bookableFilter model.floor model.selected
-            , Html.div [ Attributes.class "legend" ] <| legend showRoom
-            ]
+        , mapShow model.colourFilter model.bookableFilter model.floor model.selected model.hoverRoom
         ]
     }
 
@@ -328,8 +316,8 @@ clearButton =
 --- Map
 
 
-mapShow : Set String -> ( Bool, Bool ) -> Floor -> Maybe Room -> Html Msg
-mapShow colours bookableFilter floor selected =
+mapShow : Set String -> ( Bool, Bool ) -> Floor -> Maybe Room -> Maybe Room -> Html Msg
+mapShow colours bookableFilter floor selected hover =
     let
         room =
             case selected of
@@ -339,16 +327,25 @@ mapShow colours bookableFilter floor selected =
                 Nothing ->
                     []
 
-        ( box, floorPath, labels ) =
+        floorData =
             Map.floorData floor
+
+        showRoom =
+            case selected of
+                Just _ ->
+                    selected
+
+                Nothing ->
+                    hover
     in
     svg
         [ class [ "map" ]
-        , box
+        , floorData.box
         ]
-        (path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorPath ] []
-            :: labels
+        (path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorData.floorPath ] []
+            :: floorData.roomLabels
             :: floorHighlights colours bookableFilter floor
+            ++ legend floorData.legendPosition showRoom
             ++ room
         )
 
@@ -360,6 +357,72 @@ floorHighlights colours bookableFilter floor =
             (\room ->
                 path [ fill <| Map.paint room.colour False, d room.path, onMouseOver (MouseIn room), onMouseLeave MouseOut ] []
             )
+
+
+legend : { x : Float, y : Float } -> Maybe Room -> List (Svg Msg)
+legend legendPosition room =
+    let
+        lx =
+            legendPosition.x
+
+        ly =
+            legendPosition.y
+
+        displayRoom =
+            case room of
+                Just rm ->
+                    roomDetails ( lx + 300, ly ) rm
+
+                Nothing ->
+                    path [] []
+    in
+    [ circle [ cx (px <| lx + 25), cy (px <| ly + 25), r (px 20), fill (Fill <| Color.rgba 0.9373 0.4431 0.451 0.3) ] []
+    , circle [ cx (px <| lx + 25), cy (px <| ly + 75), r (px 20), fill (Fill <| Color.rgba 1 1 0 0.3) ] []
+    , circle [ cx (px <| lx + 25), cy (px <| ly + 125), r (px 20), fill (Fill <| Color.rgba 0 0.439 0.753 0.3) ] []
+    , circle [ cx (px <| lx + 25), cy (px <| ly + 175), r (px 20), fill (Fill <| Color.rgba 0 0.69 0.314 0.3) ] []
+    , g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 16) ]
+        [ text_ [ x (px <| lx + 50), y (px <| ly + 29.5) ] [ text "Collaborative work, deep focus" ]
+        , text_ [ x (px <| lx + 50), y (px <| ly + 79.5) ] [ text "Individual work, deep focus" ]
+        , text_ [ x (px <| lx + 50), y (px <| ly + 129.5) ] [ text "Collaborative work, medium focus" ]
+        , text_ [ x (px <| lx + 50), y (px <| ly + 179.5) ] [ text "Individual work, medium focus" ]
+        , displayRoom
+        ]
+    ]
+
+
+roomDetails : ( Float, Float ) -> Room -> Svg msg
+roomDetails ( rx, ry ) room =
+    g [ transform [ Translate rx ry ], alignmentBaseline AlignmentMiddle, textAnchor AnchorMiddle ]
+        [ text_ [ x (px 100), y (px 50), fontWeight FontWeightBold ] [ text <| String.dropRight (String.length room.label - 27) room.label ]
+        , text_ [ x (px 100), y (px 70), fontWeight FontWeightBold ] [ text <| String.dropLeft 27 room.label ]
+        , text_ [ x (px 100), y (px 100) ]
+            [ text
+                (if room.bookable then
+                    "Bookable"
+
+                 else
+                    "Not Bookable"
+                )
+            ]
+        , text_ [ x (px 100), y (px 120) ]
+            [ text
+                (if room.capacity > 0 then
+                    "Capacity: " ++ String.fromInt room.capacity
+
+                 else
+                    ""
+                )
+            ]
+        , text_ [ x (px 100), y (px 140) ]
+            [ text
+                (if room.exception then
+                    "This room has exceptions"
+
+                 else
+                    ""
+                )
+            ]
+        ]
 
 
 
@@ -415,53 +478,6 @@ coloursSelect colours =
                     , Html.text label
                     ]
             )
-
-
-legend : Maybe Room -> List (Html Msg)
-legend room =
-    [ Html.div []
-        [ Html.div [ Attributes.class "legend-red" ] [ Icons.circle, Html.text "Collaborative work, deep focus" ]
-        , Html.div [ Attributes.class "legend-yellow" ] [ Icons.circle, Html.text "Individual work, deep focus" ]
-        , Html.div [ Attributes.class "legend-blue" ] [ Icons.circle, Html.text "Collaborative work, medium focus" ]
-        , Html.div [ Attributes.class "legend-green" ] [ Icons.circle, Html.text "Individual work, medium focus" ]
-        ]
-    , roomDetails room
-    ]
-
-
-roomDetails : Maybe Room -> Html Msg
-roomDetails maybeRoom =
-    case maybeRoom of
-        Just room ->
-            Html.div [ Attributes.class "description" ]
-                [ Html.h3 [] [ Html.text room.label ]
-                , Html.text
-                    (if room.bookable then
-                        "Bookable\n"
-
-                     else
-                        "Not Bookable\n"
-                    )
-                , Html.br [] []
-                , Html.text
-                    (if room.capacity > 0 then
-                        "Capacity: " ++ String.fromInt room.capacity ++ "\n"
-
-                     else
-                        ""
-                    )
-                , Html.br [] []
-                , Html.text
-                    (if room.exception then
-                        "Note: This room has exceptions"
-
-                     else
-                        ""
-                    )
-                ]
-
-        Nothing ->
-            Html.text ""
 
 
 intToFloor : Floor -> Maybe Int -> Floor
