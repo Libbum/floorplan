@@ -1,15 +1,18 @@
 module Main exposing (main)
 
 import Browser exposing (Document)
+import Browser.Events
 import Color
 import Dict exposing (Dict)
 import Html exposing (Html)
 import Html.Attributes as Attributes
 import Html.Events
 import Icons
+import Json.Decode as Decode exposing (Decoder)
 import Map exposing (Colour(..), Floor(..), Room)
 import Selectize
 import Set exposing (Set)
+import Time
 import TypedSvg exposing (circle, g, path, svg, text_)
 import TypedSvg.Attributes exposing (alignmentBaseline, class, cx, cy, d, fill, fontFamily, fontSize, fontWeight, height, r, stroke, strokeLinecap, strokeLinejoin, strokeWidth, textAnchor, transform, width, x, y)
 import TypedSvg.Core exposing (Svg, text)
@@ -38,6 +41,8 @@ type alias Model =
     , hoverRoom : Maybe Room
     , colourFilter : Set String
     , bookableFilter : ( Bool, Bool )
+    , secret : List Keyboard
+    , unlocked : Bool
     }
 
 
@@ -56,6 +61,8 @@ init _ =
       , hoverRoom = Nothing
       , colourFilter = colours
       , bookableFilter = bookableFilter
+      , secret = []
+      , unlocked = False
       }
     , Cmd.none
     )
@@ -73,6 +80,8 @@ type Msg
     | BookableChange String Bool
     | MouseIn Room
     | MouseOut
+    | KeyPress Keyboard
+    | Lock Bool
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -169,6 +178,28 @@ update msg model =
         MouseOut ->
             ( { model | hoverRoom = Nothing }, Cmd.none )
 
+        KeyPress key ->
+            let
+                newSecret =
+                    if List.length model.secret > 8 then
+                        []
+
+                    else
+                        key :: model.secret
+            in
+            ( { model | secret = newSecret, unlocked = testSecret newSecret }, Cmd.none )
+
+        Lock button ->
+            let
+                setLock =
+                    if button then
+                        False
+
+                    else
+                        model.unlocked
+            in
+            ( { model | secret = [], unlocked = setLock }, Cmd.none )
+
 
 andDo : Cmd msg -> ( model, Cmd msg ) -> ( model, Cmd msg )
 andDo cmd ( model, cmds ) =
@@ -183,7 +214,67 @@ andDo cmd ( model, cmds ) =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    Sub.none
+    Sub.batch
+        [ Browser.Events.onKeyDown (Decode.map KeyPress keyDecoder)
+        , Time.every 10000 (\_ -> Lock False)
+        ]
+
+
+type Keyboard
+    = A
+    | N
+    | D
+    | R
+    | H
+    | E
+    | M
+    | Other
+
+
+keyDecoder : Decoder Keyboard
+keyDecoder =
+    Decode.map toKeyboard (Decode.field "key" Decode.string)
+
+
+toKeyboard : String -> Keyboard
+toKeyboard key =
+    case key of
+        "a" ->
+            A
+
+        "n" ->
+            N
+
+        "d" ->
+            D
+
+        "r" ->
+            R
+
+        "h" ->
+            H
+
+        "e" ->
+            E
+
+        "m" ->
+            M
+
+        _ ->
+            Other
+
+
+testSecret : List Keyboard -> Bool
+testSecret secret =
+    let
+        challenge =
+            [ M, E, H, A, R, D, N, A ]
+    in
+    if List.length secret == 8 then
+        List.map2 (==) secret challenge |> List.all (\c -> c == True)
+
+    else
+        False
 
 
 
@@ -194,21 +285,29 @@ view : Model -> Document Msg
 view model =
     { title = "Src Floorplan"
     , body =
-        [ Html.div
-            [ Attributes.class "container" ]
-            [ Html.div [ Attributes.class "search" ]
-                [ Selectize.view
-                    viewConfig
-                    model.selected
-                    model.roomMenu
-                    |> Html.map RoomMenu
-                ]
-            , Html.div [] <| floors model.floor
-            , Html.div [] <| coloursSelect model.colourFilter
-            , Html.div [] <| bookableSelect model.bookableFilter
+        if model.unlocked then
+            [ Html.div
+                [ Attributes.class "container" ]
+                [ Html.button [ Attributes.class "home", Html.Events.onClick (Lock True) ] [ Html.text "Back to work :(" ] ]
+            , mapShow model.colourFilter model.bookableFilter AndraHem model.selected model.hoverRoom
             ]
-        , mapShow model.colourFilter model.bookableFilter model.floor model.selected model.hoverRoom
-        ]
+
+        else
+            [ Html.div
+                [ Attributes.class "container" ]
+                [ Html.div [ Attributes.class "search" ]
+                    [ Selectize.view
+                        viewConfig
+                        model.selected
+                        model.roomMenu
+                        |> Html.map RoomMenu
+                    ]
+                , Html.div [] <| floors model.floor
+                , Html.div [] <| coloursSelect model.colourFilter
+                , Html.div [] <| bookableSelect model.bookableFilter
+                ]
+            , mapShow model.colourFilter model.bookableFilter model.floor model.selected model.hoverRoom
+            ]
     }
 
 
@@ -540,6 +639,9 @@ floorLabel current =
 
         Four ->
             "Floor 4"
+
+        AndraHem ->
+            "Mitt Andra Hem"
 
 
 roomsSelect : Set String -> ( Bool, Bool ) -> Dict String Room -> List (Selectize.Entry Room)
