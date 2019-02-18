@@ -262,11 +262,7 @@ testSecret secret =
         challenge =
             [ M, E, H, A, R, D, N, A ]
     in
-    if List.length secret == 8 then
-        List.map2 (==) secret challenge |> List.all (\c -> c == True)
-
-    else
-        False
+    secret == challenge
 
 
 
