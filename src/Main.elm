@@ -12,7 +12,6 @@ import Json.Decode as Decode exposing (Decoder)
 import Map exposing (Colour(..), Floor(..), Room)
 import Selectize
 import Set exposing (Set)
-import Time
 import TypedSvg exposing (circle, g, path, svg, text_)
 import TypedSvg.Attributes exposing (alignmentBaseline, class, cx, cy, d, fill, fontFamily, fontSize, fontWeight, height, r, stroke, strokeLinecap, strokeLinejoin, strokeWidth, textAnchor, transform, width, x, y)
 import TypedSvg.Core exposing (Svg, text)
@@ -181,11 +180,7 @@ update msg model =
         KeyPress key ->
             let
                 newSecret =
-                    if List.length model.secret > 8 then
-                        []
-
-                    else
-                        key :: model.secret
+                    key :: List.take 7 model.secret
             in
             ( { model | secret = newSecret, unlocked = testSecret newSecret }, Cmd.none )
 
@@ -198,7 +193,7 @@ update msg model =
                     else
                         model.unlocked
             in
-            ( { model | secret = [], unlocked = setLock }, Cmd.none )
+            ( { model | unlocked = setLock }, Cmd.none )
 
 
 andDo : Cmd msg -> ( model, Cmd msg ) -> ( model, Cmd msg )
@@ -214,10 +209,7 @@ andDo cmd ( model, cmds ) =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    Sub.batch
-        [ Browser.Events.onKeyDown (Decode.map KeyPress keyDecoder)
-        , Time.every 10000 (\_ -> Lock False)
-        ]
+    Browser.Events.onKeyDown (Decode.map KeyPress keyDecoder)
 
 
 type Keyboard
