@@ -287,12 +287,12 @@ roomLabels floor =
                 , text_ [ x (px 17.2), y (px 179.9) ] [ text "WC" ]
                 , text_ [ x (px 83.8), y (px 169.5) ] [ text "323" ]
                 , text_ [ x (px 83.8), y (px 181.7) ] [ text "WC" ]
-                , text_ [ x (px 470.6), y (px 82.5) ] [ text "342C Office" ]
                 , text_ [ x (px 602.9), y (px 82.5) ] [ text "342B Group Room" ]
-                , text_ [ x (px 325), y (px 76.3) ] [ text "342D Office" ]
-                , text_ [ x (px 325), y (px 88.6) ] [ text "(SRC Leadership)" ]
+                , text_ [ x (px 470.6), y (px 76.3) ] [ text "342C Office" ]
+                , text_ [ x (px 470.6), y (px 88.6) ] [ text "(SRC Leadership)" ]
+                , text_ [ x (px 325), y (px 82.5) ] [ text "342D Office" ]
                 , text_ [ x (px 980.5), y (px 160.6) ] [ text "306 Group Room" ]
-                , text_ [ x (px 1170.4), y (px 112.1) ] [ text "308 Group Room" ]
+                , text_ [ x (px 1180.4), y (px 112.1) ] [ text "308 Office" ]
                 , text_ [ x (px 1157.2), y (px 503.2) ] [ text "313" ]
                 , text_ [ x (px 1157.2), y (px 515.5) ] [ text "Thomas' Old Room" ]
                 , text_ [ x (px 1093.4), y (px 155.7) ] [ text "310" ]
@@ -304,7 +304,7 @@ roomLabels floor =
                 , text_ [ x (px 1096.5), y (px 100.4) ] [ text "Thorsten's" ]
                 , text_ [ x (px 1096.5), y (px 111.3) ] [ text "Room" ]
                 , text_ [ x (px 1066.4), y (px 632.7) ] [ text "315 Office" ]
-                , text_ [ x (px 1185), y (px 626.7) ] [ text "314 Office" ]
+                , text_ [ x (px 1170), y (px 626.7) ] [ text "314 Group Room" ]
                 , text_ [ x (px 960.4), y (px 507.3) ] [ text "316" ]
                 , text_ [ x (px 960.4), y (px 519.6) ] [ text "Telephone Room" ]
                 , text_ [ x (px 41), y (px 648.4) ] [ text "355" ]
@@ -778,11 +778,11 @@ building =
             }
           )
         , ( "308"
-          , { label = "308 Group Room"
-            , colour = Blue
+          , { label = "308 Office"
+            , colour = Green
             , bookable = False
             , exception = False
-            , capacity = 6
+            , capacity = 4
             , path = "M1257.883 171.65V57.75h-105.1v113.7l105.1.2z"
             }
           )
@@ -814,11 +814,11 @@ building =
             }
           )
         , ( "314"
-          , { label = "314 Office"
-            , colour = Green
+          , { label = "314 Group Room"
+            , colour = Blue
             , bookable = False
             , exception = False
-            , capacity = 4
+            , capacity = 6
             , path = "M1156.983 557.85h100.9v112.4h-99.6l-1.3-112.4z"
             }
           )
@@ -886,19 +886,19 @@ building =
             }
           )
         , ( "324C"
-          , { label = "324C Office"
+          , { label = "324C Office (SRC Leadership Representation Room)"
             , colour = Green
             , bookable = False
-            , exception = False
+            , exception = True
             , capacity = 3
             , path = "M427.683 45.15l137.3.1-.1 64.3-137.7.6.5-65z"
             }
           )
         , ( "324D"
-          , { label = "324D Office (SRC Leadership Representation Room)"
+          , { label = "324D Office"
             , colour = Green
             , bookable = False
-            , exception = True
+            , exception = False
             , capacity = 3
             , path = "M278.983 45.25l146-.1-.2 64.9-145.8-.5v-64.3z"
             }
