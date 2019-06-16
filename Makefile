@@ -10,13 +10,13 @@ clean:
 dist/floorplan.css: src/floorplan.css
 	cp src/floorplan.css dist/floorplan.css
 
-build: src/Main.elm dist/floorplan.css
+build: src/Main.elm dist/floorplan.css dist/init.js
 	elm make src/Main.elm --output=dist/floorplan.js --optimize
 
-serve: src/Main.elm dist/floorplan.css
+serve: src/Main.elm dist/floorplan.css dist/init.js
 	elm-live src/Main.elm -d dist --pushstate --open -- --output=dist/floorplan.js --optimize
 
-debug: src/Main.elm dist/floorplan.css
+debug: src/Main.elm dist/floorplan.css dist/init.js
 	elm-live src/Main.elm -d dist --pushstate --open -- --output=dist/floorplan.js --debug
 
 dist/floorplan.min.js: build
@@ -28,7 +28,7 @@ prodjs: dist/floorplan.min.js
 prodcs: src/floorplan.css
 	crass src/floorplan.css > dist/floorplan.css
 
-prod: prodjs prodcs
+prod: prodjs prodcs dist/init.js
 
 deploy: prod
 	rsync -avr --chown=www-data:www-data --checksum --delete -e ssh dist/ AkashaR:neophilus/floorplan

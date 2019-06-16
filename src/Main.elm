@@ -13,7 +13,7 @@ import Map exposing (Colour(..), Floor(..), Room)
 import Selectize
 import Set exposing (Set)
 import TypedSvg exposing (circle, g, path, svg, text_)
-import TypedSvg.Attributes exposing (alignmentBaseline, class, cx, cy, d, fill, fontFamily, fontSize, fontWeight, height, r, stroke, strokeLinecap, strokeLinejoin, strokeWidth, textAnchor, transform, width, x, y)
+import TypedSvg.Attributes exposing (alignmentBaseline, class, cx, cy, d, fill, fontFamily, fontSize, fontWeight, r, stroke, strokeLinecap, strokeLinejoin, strokeWidth, textAnchor, transform, x, y)
 import TypedSvg.Core exposing (Svg, text)
 import TypedSvg.Events exposing (onMouseLeave, onMouseOver)
 import TypedSvg.Types exposing (AlignmentBaseline(..), AnchorAlignment(..), Fill(..), FontWeight(..), StrokeLinecap(..), StrokeLinejoin(..), Transform(..), px)
