@@ -219,7 +219,7 @@ roomLabels floor =
                 , text_ [ x (px 1222), y (px 310.4) ] [ text "Telephone" ]
                 , text_ [ x (px 1241.7), y (px 322.6) ] [ text "Room" ]
                 , text_ [ x (px 696.7), y (px 38.9) ] [ text "242" ]
-                , text_ [ x (px 696.7), y (px 51.2) ] [ text "Copy Room" ]
+                , text_ [ x (px 696.7), y (px 51.2) ] [ text "Change Room" ]
                 , text_ [ x (px 711.7), y (px 684.7) ] [ text "253" ]
                 , text_ [ x (px 711.7), y (px 697) ] [ text "Copy Room" ]
                 , text_ [ x (px 1074.2), y (px 627.3) ] [ text "214" ]
@@ -287,7 +287,8 @@ roomLabels floor =
                 , text_ [ x (px 17.2), y (px 179.9) ] [ text "WC" ]
                 , text_ [ x (px 83.8), y (px 169.5) ] [ text "323" ]
                 , text_ [ x (px 83.8), y (px 181.7) ] [ text "WC" ]
-                , text_ [ x (px 602.9), y (px 82.5) ] [ text "342B Group Room" ]
+                , text_ [ x (px 602.9), y (px 77.5) ] [ text "342B Group Room" ]
+                , text_ [ x (px 602.9), y (px 93.7) ] [ text "Media Facilities" ]
                 , text_ [ x (px 470.6), y (px 76.3) ] [ text "342C Office" ]
                 , text_ [ x (px 470.6), y (px 88.6) ] [ text "(SRC Leadership)" ]
                 , text_ [ x (px 325), y (px 82.5) ] [ text "342D Office" ]
@@ -307,8 +308,9 @@ roomLabels floor =
                 , text_ [ x (px 1170), y (px 626.7) ] [ text "314 Group Room" ]
                 , text_ [ x (px 960.4), y (px 507.3) ] [ text "316" ]
                 , text_ [ x (px 960.4), y (px 519.6) ] [ text "Telephone Room" ]
-                , text_ [ x (px 41), y (px 648.4) ] [ text "355" ]
-                , text_ [ x (px 41), y (px 660.6) ] [ text "Corner South Attic" ]
+                , text_ [ x (px 41), y (px 643.4) ] [ text "355" ]
+                , text_ [ x (px 41), y (px 655.6) ] [ text "Corner South Attic" ]
+                , text_ [ x (px 41), y (px 667.8) ] [ text "Video Conference" ]
                 , text_ [ x (px 169.6), y (px 646.6) ] [ text "342A" ]
                 , text_ [ x (px 169.6), y (px 658.8) ] [ text "Lounge" ]
                 , text_ [ x (px 251.5), y (px 654.5) ] [ text "342B Office" ]
@@ -688,7 +690,7 @@ building =
             }
           )
         , ( "242"
-          , { label = "242 Copy Room"
+          , { label = "242 Change Room"
             , colour = Clear
             , bookable = False
             , exception = False
