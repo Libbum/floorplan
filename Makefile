@@ -31,4 +31,4 @@ prodcs: src/floorplan.css
 prod: prodjs prodcs dist/init.js
 
 deploy: prod
-	rsync -avr --chown=www-data:www-data --checksum --delete -e ssh dist/ AkashaR:neophilus/floorplan
+	rsync -avr --chown=http:www --checksum --delete -e ssh dist/ AkashaR:srcfloorplan
