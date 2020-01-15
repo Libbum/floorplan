@@ -76,6 +76,38 @@ paint colour selected =
 
 
 
+--- Media
+
+
+type Media
+    = Projector
+    | Screen
+    | Camera
+    | Speaker
+
+
+mediaSet : List Media -> Set Int
+mediaSet =
+    List.map mediaSetHelper >> Set.fromList
+
+
+mediaSetHelper : Media -> Int
+mediaSetHelper media =
+    case media of
+        Projector ->
+            1
+
+        Screen ->
+            2
+
+        Camera ->
+            3
+
+        Speaker ->
+            4
+
+
+
 --- Floors
 
 
@@ -147,6 +179,7 @@ type alias Room =
     , bookable : Bool
     , exception : Bool
     , capacity : Int
+    , media : Set Int
     , path : String
     }
 
@@ -425,6 +458,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 6
+            , media = mediaSet [ Projector ]
             , path = "M227 222h102.6v66.6h-102.6v-66.6z"
             }
           )
@@ -434,6 +468,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 0
+            , media = Set.empty
             , path = "M192.667 349.667l135.666-.334.667 66.334-136.333.333v-66.333z"
             }
           )
@@ -443,6 +478,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 0
+            , media = Set.empty
             , path = "M192.85 427.75l119.4-.3v76.6h-100.2l.2-13.3h-19.9l.5-63z"
             }
           )
@@ -452,6 +488,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 0
+            , media = Set.empty
             , path = "M212.25 513.65l100-.4v111h-131.9v-77.5h24l-.4 42.7h8.1l.2-75.8z"
             }
           )
@@ -461,6 +498,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M1099.875 179.875l.4 42.4h72.9v-42.2l-73.3-.2z"
             }
           )
@@ -470,6 +508,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 3
+            , media = Set.empty
             , path = "M1237.175 266.775h42.9l.6 66.6-74.5.4v-38.7h31v-28.3z"
             }
           )
@@ -479,6 +518,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M1178.675 179.875v43.5h19.1v-43.1l-19.1-.4z"
             }
           )
@@ -488,6 +528,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M1198.675 255.475l-.9-28.4h-19.1l.7 28.4h19.3z"
             }
           )
@@ -497,6 +538,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M1263.575 254.875v-74.9h-62.7l-.2 74.9h62.9z"
             }
           )
@@ -506,6 +548,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 8
+            , media = Set.empty
             , path = "M1263.575 171.275v-113.5l-121.9-.7v3.1h-49.5v110.4l171.4.7z"
             }
           )
@@ -515,6 +558,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 3
+            , media = Set.empty
             , path = "M1168.775 395.175h111.3v66.3h-111l-.3-66.3z"
             }
           )
@@ -524,6 +568,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 4
+            , media = Set.empty
             , path = "M1263.575 472.875l-118.8.2v62.9h18.7l.4 13.5h99.7v-76.6z"
             }
           )
@@ -533,6 +578,7 @@ building =
             , bookable = False
             , exception = True
             , capacity = 4
+            , media = Set.empty
             , path = "M1163.675 558.675l99.9-.1v111.2l-99.9.3v-111.4z"
             }
           )
@@ -542,6 +588,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 4
+            , media = Set.empty
             , path = "M1017.375 599.575h85.9l-.3-7.9 53.2-.2-.5 78.6h-137.5l-.8-70.5z"
             }
           )
@@ -551,6 +598,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 30
+            , media = Set.empty
             , path = "M1012.575 462.175l-.3-195.4H834.74v-11.2l4.435.6v-88.4h-47.5v88h2.2v10.7l-2.2.3v195.4h220.9z"
             }
           )
@@ -560,6 +608,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M689.575 119.375h-26.6l.2 63.8h26.6l-.2-63.8z"
             }
           )
@@ -569,6 +618,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 0
+            , media = Set.empty
             , path = "M899.175 167.775h52.8v87.8h-52.8v-87.8z"
             }
           )
@@ -578,6 +628,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M962.575 255.475v-36.3l14.8-13.3 37.3.3-.1 49.3h-52z"
             }
           )
@@ -587,6 +638,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M1053.475 140.675v30.8l23.9-.6v-14.2l6.3-.2.3-15.8h-30.5z"
             }
           )
@@ -596,6 +648,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M962.766 146.875l51.909.7v55.7h-37.2l-14.709 11v-67.4z"
             }
           )
@@ -605,6 +658,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 6
+            , media = mediaSet [ Screen ]
             , path = "M962.766 57.075h120.809l.2 81.4h-121.2l.191-81.4z"
             }
           )
@@ -614,6 +668,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M846.675 473.075v89.8l51.2-.5v-89.3h-51.2z"
             }
           )
@@ -623,6 +678,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M900.575 473.075l.4 89.1 51 .4v-89.5h-51.4z"
             }
           )
@@ -632,6 +688,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 4
+            , media = Set.empty
             , path = "M962.575 473.075v76.4h118.1l-.2-76.4h-117.9z"
             }
           )
@@ -641,6 +698,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 30
+            , media = mediaSet [ Projector, Speaker, Camera ]
             , path = "M19.475 17.675h178v162.6l-74.6-.3v-3h-103.4v-159.3z"
             }
           )
@@ -650,6 +708,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 4
+            , media = mediaSet [ Projector ]
             , path = "M204.475 17.675h74.3v12.9h-10.9l.4 66.8-63.8-.6v-79.1z"
             }
           )
@@ -659,6 +718,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 4
+            , media = mediaSet [ Screen ]
             , path = "M271.175 32.875l11.1.4-.4-15.6h52.8l-.3 80.1-63.9-.9.7-64z"
             }
           )
@@ -668,6 +728,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 6
+            , media = Set.empty
             , path = "M333.675 180.275v-80.7l-129.2 1.3v79.4h129.2z"
             }
           )
@@ -677,6 +738,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 20
+            , media = mediaSet [ Projector, Speaker ]
             , path = "M341.775 17.675h131.6v162.6l-131.6-.9v-161.7z"
             }
           )
@@ -686,6 +748,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 40
+            , media = Set.empty
             , path = "M655.875 180.275v-162.6h-175.8v162.2l175.8.4z"
             }
           )
@@ -695,6 +758,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 0
+            , media = Set.empty
             , path = "M662.975 17.675h118.3l.2 47.7-118.5-.1v-47.6z"
             }
           )
@@ -704,6 +768,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 12
+            , media = mediaSet [ Projector, Speaker, Camera, Screen ]
             , path = "M19.475 552.275l93.7-.4v-3.1h26.8v162.2l-120.5.2v-158.9z"
             }
           )
@@ -713,6 +778,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 12
+            , media = Set.empty
             , path = "M147.075 548.775h131.7v162.2h-131.7v-162.2z"
             }
           )
@@ -722,6 +788,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 30
+            , media = mediaSet [ Projector, Speaker ]
             , path = "M286.075 548.775h175.3l-.2 54.3q-7.02 19.273-7.175 30.3-.155 11.027 7.231 32.437l-.056 45.163h-175.1v-162.2z"
             }
           )
@@ -731,6 +798,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 40
+            , media = mediaSet [ Projector, Speaker ]
             , path = "M464.624 662.062q-5.879-18.338-5.849-28.187.03-9.849 6.017-27.876l.183-60.924 58.5-.3.1-4.6h138.113v5.424l28.587.076-.5 53.3q9.213 19.762 9.2 32.7-.013 12.937-9.2 38.1v41.4l-225.3.5.149-49.613z"
             }
           )
@@ -740,6 +808,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 0
+            , media = Set.empty
             , path = "M692.975 711.175l-.1-39.2 3.9-8.4h84.7v47.6h-88.5z"
             }
           )
@@ -749,6 +818,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M1046.083 292.45v20.6h34.5l.3-20.6h-34.8z"
             }
           )
@@ -758,6 +828,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M1017.483 325.25h25.5l.2 35.7h-25.9l.2-35.7z"
             }
           )
@@ -767,6 +838,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 12
+            , media = mediaSet [ Projector, Speaker, Camera ]
             , path = "M1077.983 256.65l.2-199.1-121.4.2v198.6l121.2.3z"
             }
           )
@@ -776,6 +848,7 @@ building =
             , bookable = False
             , exception = True
             , capacity = 1
+            , media = Set.empty
             , path = "M1086.483 57.75h62.8v83.4h-63.6l.8-83.4z"
             }
           )
@@ -785,6 +858,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 4
+            , media = mediaSet [ Screen ]
             , path = "M1257.883 171.65V57.75h-105.1v113.7l105.1.2z"
             }
           )
@@ -794,6 +868,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M1091.883 144.25l16.7-.3-.3 28-16.4.2v-27.9z"
             }
           )
@@ -803,6 +878,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 12
+            , media = Set.empty
             , path = "M1274.383 461.65v-194.5l-135.9.2v194.3h135.9z"
             }
           )
@@ -812,6 +888,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 6
+            , media = Set.empty
             , path = "M1138.483 473.35h119.4v76.3h-71.9v-3.1h-27.7l-.4-9.6-19.4-.3v-63.3z"
             }
           )
@@ -821,6 +898,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 6
+            , media = mediaSet [ Screen ]
             , path = "M1156.983 557.85h100.9v112.4h-99.6l-1.3-112.4z"
             }
           )
@@ -830,6 +908,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 4
+            , media = Set.empty
             , path = "M1011.583 590.75h143.2l.4 79.5h-143.6v-79.5z"
             }
           )
@@ -839,6 +918,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 4
+            , media = Set.empty
             , path = "M956.783 473.15h81.2l-.1 76.7h-81.1v-76.7z"
             }
           )
@@ -848,6 +928,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 10
+            , media = Set.empty
             , path = "M13.783 45.25h155.8l-17.2 67.3-138.6.1v-67.4z"
             }
           )
@@ -857,6 +938,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M13.783 156.65l24.9.1v30.4l-24.9.4v-30.9z"
             }
           )
@@ -866,6 +948,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M80.483 156.75h24.6v30.1l-24.6.3v-30.4z"
             }
           )
@@ -875,6 +958,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 6
+            , media = Set.empty
             , path = "M155.783 112.55l120.5.4v-67.7l-103-.1-17.5 67.4z"
             }
           )
@@ -884,6 +968,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 10
+            , media = mediaSet [ Screen, Speaker ]
             , path = "M750.383 70.55l25.3.2v-25.5h-208.5v64.3l138.8.7v-41.1l44.4-.4v1.8z"
             }
           )
@@ -893,6 +978,7 @@ building =
             , bookable = False
             , exception = True
             , capacity = 3
+            , media = Set.empty
             , path = "M427.683 45.15l137.3.1-.1 64.3-137.7.6.5-65z"
             }
           )
@@ -902,6 +988,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 3
+            , media = Set.empty
             , path = "M278.983 45.25l146-.1-.2 64.9-145.8-.5v-64.3z"
             }
           )
@@ -911,6 +998,7 @@ building =
             , bookable = False
             , exception = True
             , capacity = 1
+            , media = Set.empty
             , path = "M204.783 224.25l.4-74.8-49.4-.4v75.2h49z"
             }
           )
@@ -920,6 +1008,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M256.533 224.4l.4-74.8-49.4-.4v75.2h49z"
             }
           )
@@ -929,6 +1018,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M308.483 223.85l.4-74.8-49.4-.4v75.2h49z"
             }
           )
@@ -938,6 +1028,7 @@ building =
             , bookable = False
             , exception = True
             , capacity = 1
+            , media = Set.empty
             , path = "M361.083 224.25l.4-74.8-49.4-.4v75.2h49z"
             }
           )
@@ -947,6 +1038,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M413.083 224.25l.4-74.8-49.4-.4v75.2h49z"
             }
           )
@@ -956,6 +1048,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M464.908 224.25l.4-74.8-49.4-.4v75.2h49z"
             }
           )
@@ -965,6 +1058,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M542.572 224.25l.611-74.8-75.55-.4v75.2h74.939z"
             }
           )
@@ -974,6 +1068,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M620.722 224.4l.611-74.8-75.55-.4v75.2h74.939z"
             }
           )
@@ -983,6 +1078,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M698.422 224.25l.611-74.8-75.55-.4v75.2h74.939z"
             }
           )
@@ -992,6 +1088,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M762.289 223.85l.494-74.8-61-.4v75.2h60.506z"
             }
           )
@@ -1001,6 +1098,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M13.783 543.05l24.9.2v30H14.619l-.836-30.2z"
             }
           )
@@ -1010,6 +1108,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M80.483 543.05l24.7.4-.1 29.8h-24.6v-30.2z"
             }
           )
@@ -1019,6 +1118,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 4
+            , media = Set.empty
             , path = "M215.083 613.85l-64.4.431 14.4 70.269h49.8l.2-70.7z"
             }
           )
@@ -1028,6 +1128,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 3
+            , media = Set.empty
             , path = "M336.183 684.55l.4-67.9-118.6.1-.6 67.8h118.8z"
             }
           )
@@ -1037,6 +1138,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M389.183 684.55v-68.2l-50.2.2v68h50.2z"
             }
           )
@@ -1046,6 +1148,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M440.383 685.1v-68.2l-48.95.2v68h48.95z"
             }
           )
@@ -1055,6 +1158,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 4
+            , media = Set.empty
             , path = "M615.083 684.55l-.2-68h-171l-.1 68h171.3z"
             }
           )
@@ -1064,6 +1168,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 8
+            , media = Set.empty
             , path = "M617.983 616.25l78.1.5v37.4l10.3.2-.4 6.6h44.4v-1.7l25.3.4v24.9h-157.5l-.2-68.3z"
             }
           )
@@ -1073,6 +1178,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M193.958 581.05v-75.2h-48.975v75.2h48.975z"
             }
           )
@@ -1082,6 +1188,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M246.058 580.85v-75.2h-48.975v75.2h48.975z"
             }
           )
@@ -1091,6 +1198,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M297.958 580.85v-75.2h-48.55v75.2h48.55z"
             }
           )
@@ -1100,6 +1208,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M349.858 580.95v-75.2h-48.55v75.2h48.55z"
             }
           )
@@ -1109,6 +1218,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M401.783 580.85v-75.2h-48.55v75.2h48.55z"
             }
           )
@@ -1118,6 +1228,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M453.583 580.85v-75.2h-48.55v75.2h48.55z"
             }
           )
@@ -1127,6 +1238,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 3
+            , media = Set.empty
             , path = "M535.133 580.85v-75.2h-78v75.2h78z"
             }
           )
@@ -1136,6 +1248,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 3
+            , media = Set.empty
             , path = "M616.683 580.85v-75.2h-79v75.2h79z"
             }
           )
@@ -1145,6 +1258,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 3
+            , media = Set.empty
             , path = "M698 580.85v-75.2h-79v75.2h79z"
             }
           )
@@ -1154,6 +1268,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M762.783 580.85v-75H700v75h62.783z"
             }
           )
@@ -1163,6 +1278,7 @@ building =
             , bookable = True
             , exception = False
             , capacity = 8
+            , media = mediaSet [ Screen, Camera, Speaker ]
             , path = "M161.183 684.55l-13.8-67.3h-133.6v67.5l147.4-.2z"
             }
           )
@@ -1172,6 +1288,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M69.25 422h26.5v20l-26.5 25v-45z"
             }
           )
@@ -1181,6 +1298,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M67 180.25h67.25v81h-41.2l-.4 50.2h-25.1L67 180.25z"
             }
           )
@@ -1190,6 +1308,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 4
+            , media = Set.empty
             , path = "M4.75 101.05h123l-.5 77.25-96.1-.65-.4-47.2h-26v-29.4z"
             }
           )
@@ -1199,6 +1318,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 3
+            , media = Set.empty
             , path = "M127.75 5.35h-36v23.3h-61v39.4h-26v31.5l123-2V5.35z"
             }
           )
@@ -1208,6 +1328,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 4
+            , media = Set.empty
             , path = "M223.05 5.35h-92.7l-.5 87.9h10.4v26.8h61.1l21.7-21.6V5.35z"
             }
           )
@@ -1217,6 +1338,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 4
+            , media = Set.empty
             , path = "M307.45 94.05h-23.4v-65.4h-55.9v69.3l20.8 21.2h46.4l12.1 3.9v-29z"
             }
           )
@@ -1226,6 +1348,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 3
+            , media = Set.empty
             , path = "M226.05 424.55h58v45.9h23.8v62.8h-23.8v36.8h-58v-63.3h1.3l.4-20.3h-1.7v-61.9z"
             }
           )
@@ -1235,6 +1358,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 4
+            , media = Set.empty
             , path = "M223.05 621.55l.8-114.3h-90.1v114.3h89.3z"
             }
           )
@@ -1244,6 +1368,7 @@ building =
             , bookable = False
             , exception = True
             , capacity = 2
+            , media = Set.empty
             , path = "M131.65 507.25h-47.2l-23.4 20.3v53.7h30.3v40.3h37.2l-.8-24.2 3.9-.5v-89.6z"
             }
           )
@@ -1253,6 +1378,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 1
+            , media = Set.empty
             , path = "M30.25 422l36.75-.5.25 46.75-29.25 28h-7.75V422z"
             }
           )
@@ -1262,6 +1388,7 @@ building =
             , bookable = False
             , exception = True
             , capacity = 2
+            , media = Set.empty
             , path = "M67.55 365.85h66.2v43.7h-66.2v-43.7z"
             }
           )
@@ -1271,6 +1398,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 8
+            , media = Set.empty
             , path = "M4.556 4.556V110H150V4.556H4.556z"
             }
           )
@@ -1280,6 +1408,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 52
+            , media = Set.empty
             , path = "M4.556 245.444h120.26v-25.559h42.648v25.559l122.701.037V41.603h-51.754V4.556H150V110H4.556v135.444z"
             }
           )
@@ -1289,6 +1418,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M240.575 4.694v34.954l23.863-.048.404-35.044-24.267.138z"
             }
           )
@@ -1298,6 +1428,7 @@ building =
             , bookable = False
             , exception = False
             , capacity = 2
+            , media = Set.empty
             , path = "M290.165 4.556h-23.69l.241 35.044h23.449V4.556z"
             }
           )
