@@ -278,7 +278,6 @@ input[type="radio"], input[type="checkbox"] {
     cursor: pointer;
 }
 
-
 .icon:hover, .icon:focus, .icon:active, input:checked ~ .icon {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
@@ -287,6 +286,11 @@ input[type="radio"], input[type="checkbox"] {
 
 .icon:hover {
     transition: stroke .15s ease-in;
+}
+
+.media {
+    width: 25px;
+    height: 25px;
 }
 
 label {
