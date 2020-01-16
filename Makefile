@@ -32,3 +32,6 @@ prod: prodjs prodcs dist/init.js
 
 deploy: prod
 	rsync -avr --chown=http:www --checksum --delete -e ssh dist/ KalaR:srcfloorplan
+
+beta: prod
+	rsync -avr --chown=http:www --checksum --delete -e ssh dist/ KalaR:srcfloorplan/beta
