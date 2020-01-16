@@ -56,7 +56,7 @@ init _ =
     in
     ( { selected = Nothing
       , roomMenu = filteredMenu colours bookableFilter
-      , floor = Two
+      , floor = Three
       , hoverRoom = Nothing
       , colourFilter = colours
       , bookableFilter = bookableFilter
@@ -424,6 +424,11 @@ mapShow colours bookableFilter floor selected hover =
 
                 Nothing ->
                     hover
+
+        mediaLabels =
+            Map.filterFloorMedia floor Map.building
+                |> List.map Map.showMedia
+                |> List.concat
     in
     svg
         [ class [ "map" ]
@@ -432,6 +437,7 @@ mapShow colours bookableFilter floor selected hover =
         (path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorData.floorPath ] []
             :: floorData.roomLabels
             :: floorHighlights colours bookableFilter floor
+            ++ mediaLabels
             ++ legend floorData.legendPosition showRoom
             ++ room
         )
