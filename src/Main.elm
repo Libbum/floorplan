@@ -56,7 +56,7 @@ init _ =
     in
     ( { selected = Nothing
       , roomMenu = filteredMenu colours bookableFilter
-      , floor = Three
+      , floor = Two
       , hoverRoom = Nothing
       , colourFilter = colours
       , bookableFilter = bookableFilter
@@ -434,10 +434,10 @@ mapShow colours bookableFilter floor selected hover =
         [ class [ "map" ]
         , floorData.box
         ]
-        (path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorData.floorPath ] []
+        (mediaLabels
+            ++ path [ fill FillNone, stroke Color.black, strokeLinecap StrokeLinecapRound, strokeLinejoin StrokeLinejoinRound, strokeWidth (px 1), d floorData.floorPath ] []
             :: floorData.roomLabels
             :: floorHighlights colours bookableFilter floor
-            ++ mediaLabels
             ++ legend floorData.legendPosition showRoom
             ++ room
         )
@@ -515,6 +515,13 @@ roomDetails ( rx, ry ) room =
                     ""
                 )
             ]
+
+        --NOTE: This is a bit of a hack, since no rooms that have media have exceptions.
+        -- If, in the future we have both in a room, the yoffest will need to be managed better.
+        , text_ [ x (px 100), y (px 140) ]
+            [ text <| String.dropRight (String.length room.mediaDetails - 27) room.mediaDetails ]
+        , text_ [ x (px 100), y (px 160) ]
+            [ text <| String.dropLeft 27 room.mediaDetails ]
         ]
 
 
