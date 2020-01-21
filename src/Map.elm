@@ -247,7 +247,7 @@ roomLabels floor =
     case floor of
         One ->
             g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9), fontWeight FontWeightBolder ]
-                [ text_ [ x (px 243.7), y (px 257) ] [ text "106 Basement" ]
+                [ text_ [ x (px 243.7), y (px 257) ] [ text "106 The Cave" ]
                 , text_ [ x (px 235.3), y (px 379.6) ] [ text "108 Archive" ]
                 , text_ [ x (px 212.7), y (px 462.3) ] [ text "109 Secure Archive" ]
                 , text_ [ x (px 215.3), y (px 567) ] [ text "110 Meditation Room" ]
@@ -255,7 +255,7 @@ roomLabels floor =
 
         Two ->
             g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9), fontWeight FontWeightBolder ]
-                [ text_ [ x (px 1140.9), y (px 111.5) ] [ text "209 Group Room" ]
+                [ text_ [ x (px 1120), y (px 111.5) ] [ text "209 Communication Office" ]
                 , text_ [ x (px 1224.4), y (px 211.6) ] [ text "208" ]
                 , text_ [ x (px 1224.4), y (px 223.9) ] [ text "Hall" ]
                 , text_ [ x (px 905.8), y (px 202.9) ] [ text "219" ]
@@ -266,19 +266,18 @@ roomLabels floor =
                 , text_ [ x (px 964.6), y (px 165.7) ] [ text "222" ]
                 , text_ [ x (px 964.6), y (px 178) ] [ text "Massage /" ]
                 , text_ [ x (px 964.6), y (px 190.2) ] [ text "Rest Room" ]
-                , text_ [ x (px 986.7), y (px 93.7) ] [ text "226" ]
-                , text_ [ x (px 986.7), y (px 105.4) ] [ text "Calle's Old Room" ]
+                , text_ [ x (px 1000), y (px 93.7) ] [ text "226" ]
+                , text_ [ x (px 1000), y (px 105.4) ] [ text "Mäler" ]
                 , text_ [ x (px 551), y (px 94.7) ] [ text "240" ]
                 , text_ [ x (px 551), y (px 107) ] [ text "Kitchen" ]
-                , text_ [ x (px 58.5), y (px 93.2) ] [ text "237" ]
-                , text_ [ x (px 58.5), y (px 105.4) ] [ text "Big Room in the Corner" ]
-                , text_ [ x (px 213), y (px 51.1) ] [ text "238A" ]
-                , text_ [ x (px 213), y (px 63.4) ] [ text "IT Support's" ]
-                , text_ [ x (px 213), y (px 75.7) ] [ text "Old Room" ]
-                , text_ [ x (px 235), y (px 137.3) ] [ text "238C" ]
-                , text_ [ x (px 235), y (px 149.6) ] [ text "Inbetweeners" ]
-                , text_ [ x (px 274.6), y (px 51.1) ] [ text "238B" ]
-                , text_ [ x (px 274.6), y (px 63.4) ] [ text "The Smallest" ]
+                , text_ [ x (px 85), y (px 93.2) ] [ text "237" ]
+                , text_ [ x (px 85), y (px 105.4) ] [ text "Odum" ]
+                , text_ [ x (px 220), y (px 51.1) ] [ text "238A" ]
+                , text_ [ x (px 220), y (px 63.4) ] [ text "Daily" ]
+                , text_ [ x (px 255), y (px 137.3) ] [ text "238C" ]
+                , text_ [ x (px 255), y (px 149.6) ] [ text "Walker" ]
+                , text_ [ x (px 280), y (px 51.1) ] [ text "238B" ]
+                , text_ [ x (px 280), y (px 63.4) ] [ text "Lubchenko" ]
                 , text_ [ x (px 885.1), y (px 358.4) ] [ text "216" ]
                 , text_ [ x (px 885.1), y (px 370.6) ] [ text "Lobby" ]
                 , text_ [ x (px 859.3), y (px 488.5) ] [ text "227" ]
@@ -307,24 +306,23 @@ roomLabels floor =
                 , text_ [ x (px 696.7), y (px 51.2) ] [ text "Change Room" ]
                 , text_ [ x (px 711.7), y (px 684.7) ] [ text "253" ]
                 , text_ [ x (px 711.7), y (px 697) ] [ text "Copy Room" ]
-                , text_ [ x (px 1074.2), y (px 627.3) ] [ text "214" ]
-                , text_ [ x (px 1074.2), y (px 639.6) ] [ text "Office" ]
+                , text_ [ x (px 1044.2), y (px 627.3) ] [ text "214" ]
+                , text_ [ x (px 1044.2), y (px 639.6) ] [ text "Administration Office" ]
                 , text_ [ x (px 1209), y (px 425.7) ] [ text "211" ]
                 , text_ [ x (px 1209), y (px 438) ] [ text "Office" ]
                 , text_ [ x (px 1196.4), y (px 508.5) ] [ text "212" ]
                 , text_ [ x (px 1196.4), y (px 520.8) ] [ text "Office" ]
-                , text_ [ x (px 1199.1), y (px 599.4) ] [ text "213" ]
-                , text_ [ x (px 1199.1), y (px 611.7) ] [ text "Office" ]
-                , text_ [ x (px 1199.1), y (px 623.9) ] [ text "(Admin" ]
-                , text_ [ x (px 1201.5), y (px 636.2) ] [ text "Room)" ]
-                , text_ [ x (px 366.1), y (px 93.2) ] [ text "239" ]
-                , text_ [ x (px 366.1), y (px 105.4) ] [ text "Next to the Kitchen" ]
+                , text_ [ x (px 1185), y (px 599.4) ] [ text "213" ]
+                , text_ [ x (px 1185), y (px 611.7) ] [ text "Administration" ]
+                , text_ [ x (px 1185), y (px 623.9) ] [ text "Office" ]
+                , text_ [ x (px 390), y (px 93.2) ] [ text "239" ]
+                , text_ [ x (px 390), y (px 105.4) ] [ text "Jansson" ]
                 , text_ [ x (px 54.2), y (px 627.3) ] [ text "248" ]
-                , text_ [ x (px 54.2), y (px 639.6) ] [ text "Boardroom" ]
+                , text_ [ x (px 54.2), y (px 639.6) ] [ text "Ostrom" ]
                 , text_ [ x (px 183), y (px 624) ] [ text "249" ]
                 , text_ [ x (px 183), y (px 636.2) ] [ text "Grouproom" ]
                 , text_ [ x (px 319.7), y (px 623.3) ] [ text "250" ]
-                , text_ [ x (px 319.7), y (px 635.6) ] [ text "0ld Communications Lab" ]
+                , text_ [ x (px 319.7), y (px 635.6) ] [ text "Master's Workspace" ]
                 , text_ [ x (px 514.5), y (px 634) ] [ text "251" ]
                 , text_ [ x (px 514.5), y (px 646.2) ] [ text "Masters' Lecture Theatre" ]
                 ]
@@ -333,7 +331,8 @@ roomLabels floor =
             g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9), fontWeight FontWeightBolder ]
                 [ text_ [ x (px 1182.4), y (px 364.4) ] [ text "312 Library" ]
                 , text_ [ x (px 190.5), y (px 81.2) ] [ text "324A Lounge" ]
-                , text_ [ x (px 158), y (px 177.9) ] [ text "325 Office" ]
+                , text_ [ x (px 158), y (px 165.6) ] [ text "325" ]
+                , text_ [ x (px 155), y (px 177.9) ] [ text "Falkenmark" ]
                 , text_ [ x (px 158), y (px 190.1) ] [ text "(Malin's" ]
                 , text_ [ x (px 158), y (px 202.4) ] [ text "Room)" ]
                 , text_ [ x (px 209.7), y (px 187.9) ] [ text "326 Office" ]
@@ -351,12 +350,10 @@ roomLabels floor =
                 , text_ [ x (px 355), y (px 546.6) ] [ text "347 Office" ]
                 , text_ [ x (px 302.5), y (px 546.6) ] [ text "346 Office" ]
                 , text_ [ x (px 251.2), y (px 546.6) ] [ text "345 Office" ]
-                , text_ [ x (px 199.6), y (px 534.3) ] [ text "344" ]
-                , text_ [ x (px 199.6), y (px 546.5) ] [ text "Bea's" ]
-                , text_ [ x (px 199.6), y (px 558.8) ] [ text "Old Room" ]
-                , text_ [ x (px 147.5), y (px 534.3) ] [ text "343" ]
-                , text_ [ x (px 147.5), y (px 546.5) ] [ text "Miriam's" ]
-                , text_ [ x (px 147.5), y (px 558.8) ] [ text "Old Room" ]
+                , text_ [ x (px 205), y (px 534.3) ] [ text "344" ]
+                , text_ [ x (px 205), y (px 546.5) ] [ text "Scheffer" ]
+                , text_ [ x (px 149), y (px 534.3) ] [ text "343" ]
+                , text_ [ x (px 149), y (px 546.5) ] [ text "Carpenter" ]
                 , text_ [ x (px 83.8), y (px 555.5) ] [ text "341" ]
                 , text_ [ x (px 83.8), y (px 567.8) ] [ text "WC" ]
                 , text_ [ x (px 17.2), y (px 555.2) ] [ text "340" ]
@@ -366,8 +363,8 @@ roomLabels floor =
                 , text_ [ x (px 561.1), y (px 187.9) ] [ text "332 Office" ]
                 , text_ [ x (px 639.2), y (px 187.9) ] [ text "333 Office" ]
                 , text_ [ x (px 709.8), y (px 187.9) ] [ text "334 Office" ]
-                , text_ [ x (px 48), y (px 75) ] [ text "321" ]
-                , text_ [ x (px 48), y (px 87.2) ] [ text "Corner North Attic" ]
+                , text_ [ x (px 70), y (px 75) ] [ text "321" ]
+                , text_ [ x (px 70), y (px 87.2) ] [ text "Westley" ]
                 , text_ [ x (px 17.2), y (px 167.7) ] [ text "322" ]
                 , text_ [ x (px 17.2), y (px 179.9) ] [ text "WC" ]
                 , text_ [ x (px 83.8), y (px 169.5) ] [ text "323" ]
@@ -377,10 +374,11 @@ roomLabels floor =
                 , text_ [ x (px 470.6), y (px 76.3) ] [ text "324C Office" ]
                 , text_ [ x (px 470.6), y (px 88.6) ] [ text "(SRC Leadership)" ]
                 , text_ [ x (px 325), y (px 82.5) ] [ text "324D Office" ]
-                , text_ [ x (px 980.5), y (px 160.6) ] [ text "306 Group Room" ]
+                , text_ [ x (px 970.5), y (px 160.6) ] [ text "306" ]
+                , text_ [ x (px 970.5), y (px 172.6) ] [ text "Holling Board Room" ]
                 , text_ [ x (px 1180.4), y (px 112.1) ] [ text "308 Office" ]
-                , text_ [ x (px 1157.2), y (px 503.2) ] [ text "313" ]
-                , text_ [ x (px 1157.2), y (px 515.5) ] [ text "Thomas' Old Room" ]
+                , text_ [ x (px 1177.2), y (px 503.2) ] [ text "313" ]
+                , text_ [ x (px 1177.2), y (px 515.5) ] [ text "Meadows" ]
                 , text_ [ x (px 1093.4), y (px 155.7) ] [ text "310" ]
                 , text_ [ x (px 1093.4), y (px 168) ] [ text "Tel" ]
                 , text_ [ x (px 1021.2), y (px 336.5) ] [ text "303" ]
@@ -393,7 +391,7 @@ roomLabels floor =
                 , text_ [ x (px 1170), y (px 626.7) ] [ text "314 Group Room" ]
                 , text_ [ x (px 960.4), y (px 507.3) ] [ text "316" ]
                 , text_ [ x (px 960.4), y (px 519.6) ] [ text "Telephone Room" ]
-                , text_ [ x (px 41), y (px 669) ] [ text "355 Corner South Attic" ]
+                , text_ [ x (px 70), y (px 669) ] [ text "355 Bolin" ]
                 , text_ [ x (px 169.6), y (px 646.6) ] [ text "342A" ]
                 , text_ [ x (px 169.6), y (px 658.8) ] [ text "Lounge" ]
                 , text_ [ x (px 251.5), y (px 654.5) ] [ text "342B Office" ]
@@ -433,7 +431,7 @@ roomLabels floor =
                 , text_ [ x (px 164.7), y (px 557.9) ] [ text "413" ]
                 , text_ [ x (px 164.7), y (px 568.8) ] [ text "Office" ]
                 , text_ [ x (px 88), y (px 535.2) ] [ text "414" ]
-                , text_ [ x (px 88), y (px 546.1) ] [ text "Office" ]
+                , text_ [ x (px 88), y (px 546.1) ] [ text "Folke" ]
                 , text_ [ x (px 88), y (px 557) ] [ text "(Calle's" ]
                 , text_ [ x (px 88), y (px 567.9) ] [ text "Room)" ]
                 ]
@@ -503,7 +501,7 @@ building : Dict String Room
 building =
     Dict.fromList
         [ ( "106"
-          , { label = "106 Basement"
+          , { label = "106 The Cave"
             , colour = Red
             , bookable = True
             , exception = False
@@ -611,7 +609,7 @@ building =
             }
           )
         , ( "209"
-          , { label = "209 Group Room"
+          , { label = "209 Communication Office"
             , colour = Blue
             , bookable = False
             , exception = False
@@ -647,7 +645,7 @@ building =
             }
           )
         , ( "213"
-          , { label = "213 Office (Admin Room)"
+          , { label = "213 Administration Office"
             , colour = Green
             , bookable = False
             , exception = True
@@ -659,10 +657,10 @@ building =
             }
           )
         , ( "214"
-          , { label = "214 Office"
+          , { label = "214 Administration Office"
             , colour = Green
             , bookable = False
-            , exception = False
+            , exception = True
             , capacity = 4
             , media = Set.empty
             , iconAnchor = ( 0, 0 )
@@ -743,7 +741,7 @@ building =
             }
           )
         , ( "226"
-          , { label = "226 Calle's Old Room"
+          , { label = "226 Mäler"
             , colour = Red
             , bookable = True
             , exception = False
@@ -791,7 +789,7 @@ building =
             }
           )
         , ( "237"
-          , { label = "237 Big Room in the Corner"
+          , { label = "237 Odum"
             , colour = Red
             , bookable = True
             , exception = False
@@ -803,7 +801,7 @@ building =
             }
           )
         , ( "238A"
-          , { label = "238A IT Support's Old Room"
+          , { label = "238A Daily"
             , colour = Red
             , bookable = True
             , exception = False
@@ -815,7 +813,7 @@ building =
             }
           )
         , ( "238B"
-          , { label = "238B The Smallest"
+          , { label = "238B Lubchenko"
             , colour = Red
             , bookable = True
             , exception = False
@@ -827,7 +825,7 @@ building =
             }
           )
         , ( "238C"
-          , { label = "238C Inbetweeners"
+          , { label = "238C Walker"
             , colour = Blue
             , bookable = True
             , exception = False
@@ -839,7 +837,7 @@ building =
             }
           )
         , ( "239"
-          , { label = "239 Next to Kitchen"
+          , { label = "239 Jansson"
             , colour = Red
             , bookable = True
             , exception = False
@@ -875,7 +873,7 @@ building =
             }
           )
         , ( "248"
-          , { label = "248 Boardroom"
+          , { label = "248 Ostrom"
             , colour = Red
             , bookable = True
             , exception = False
@@ -899,7 +897,7 @@ building =
             }
           )
         , ( "250"
-          , { label = "250 Old Communications Lab"
+          , { label = "250 Master's Workspace"
             , colour = Red
             , bookable = True
             , exception = False
@@ -959,7 +957,7 @@ building =
             }
           )
         , ( "306"
-          , { label = "306 Group Room"
+          , { label = "306 Holling Board Room"
             , colour = Blue
             , bookable = False
             , exception = False
@@ -1019,7 +1017,7 @@ building =
             }
           )
         , ( "313"
-          , { label = "313 Thomas' Old Room"
+          , { label = "313 Meadows"
             , colour = Red
             , bookable = True
             , exception = False
@@ -1067,7 +1065,7 @@ building =
             }
           )
         , ( "321"
-          , { label = "321 Corner North Attic"
+          , { label = "321 Westley"
             , colour = Red
             , bookable = True
             , exception = False
@@ -1151,7 +1149,7 @@ building =
             }
           )
         , ( "325"
-          , { label = "325 Office (Malin's Room)"
+          , { label = "325 Falkenmark"
             , colour = Yellow
             , bookable = False
             , exception = True
@@ -1367,7 +1365,7 @@ building =
             }
           )
         , ( "343"
-          , { label = "343 Miriams' Old Room"
+          , { label = "343 Carpenter"
             , colour = Yellow
             , bookable = True
             , exception = False
@@ -1379,7 +1377,7 @@ building =
             }
           )
         , ( "344"
-          , { label = "344 Bea's Old Room"
+          , { label = "344 Scheffer"
             , colour = Yellow
             , bookable = True
             , exception = False
@@ -1487,7 +1485,7 @@ building =
             }
           )
         , ( "355"
-          , { label = "355 Corner South Attic"
+          , { label = "355 Bolin"
             , colour = Red
             , bookable = True
             , exception = False
@@ -1595,7 +1593,7 @@ building =
             }
           )
         , ( "414"
-          , { label = "414 Office (Calle's Room)"
+          , { label = "414 Folke"
             , colour = Yellow
             , bookable = False
             , exception = True
