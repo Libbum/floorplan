@@ -333,8 +333,9 @@ roomLabels floor =
                 , text_ [ x (px 190.5), y (px 81.2) ] [ text "324A Lounge" ]
                 , text_ [ x (px 158), y (px 165.6) ] [ text "325" ]
                 , text_ [ x (px 155), y (px 177.9) ] [ text "Falkenmark" ]
-                , text_ [ x (px 158), y (px 190.1) ] [ text "(Malin's" ]
-                , text_ [ x (px 158), y (px 202.4) ] [ text "Room)" ]
+                , text_ [ x (px 158), y (px 190.1) ] [ text "(Pre-" ]
+                , text_ [ x (px 158), y (px 202.4) ] [ text "allocated" ]
+                , text_ [ x (px 158), y (px 214.7) ] [ text "Office)" ]
                 , text_ [ x (px 209.7), y (px 187.9) ] [ text "326 Office" ]
                 , text_ [ x (px 261.7), y (px 187.9) ] [ text "327 Office" ]
                 , text_ [ x (px 314.3), y (px 178.8) ] [ text "328 Office" ]
@@ -385,8 +386,9 @@ roomLabels floor =
                 , text_ [ x (px 1021.2), y (px 348.7) ] [ text "WC" ]
                 , text_ [ x (px 1047.4), y (px 301.6) ] [ text "302 WC" ]
                 , text_ [ x (px 1096.5), y (px 89.5) ] [ text "307" ]
-                , text_ [ x (px 1096.5), y (px 100.4) ] [ text "Thorsten's" ]
-                , text_ [ x (px 1096.5), y (px 111.3) ] [ text "Room" ]
+                , text_ [ x (px 1096.5), y (px 100.4) ] [ text "Pre-" ]
+                , text_ [ x (px 1096.5), y (px 112.7) ] [ text "allocated" ]
+                , text_ [ x (px 1096.5), y (px 125) ] [ text "Office" ]
                 , text_ [ x (px 1066.4), y (px 632.7) ] [ text "315 Office" ]
                 , text_ [ x (px 1170), y (px 626.7) ] [ text "314 Group Room" ]
                 , text_ [ x (px 960.4), y (px 507.3) ] [ text "316" ]
@@ -969,7 +971,7 @@ building =
             }
           )
         , ( "307"
-          , { label = "307 Thorsten's Room"
+          , { label = "307 Pre-allocated Office"
             , colour = Red
             , bookable = False
             , exception = True
@@ -1149,7 +1151,7 @@ building =
             }
           )
         , ( "325"
-          , { label = "325 Falkenmark"
+          , { label = "325 Falkenmark             (Pre-allocated Office)"
             , colour = Yellow
             , bookable = False
             , exception = True
