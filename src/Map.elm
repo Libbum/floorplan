@@ -396,8 +396,10 @@ roomLabels floor =
                 , text_ [ x (px 70), y (px 669) ] [ text "355 Bolin" ]
                 , text_ [ x (px 169.6), y (px 646.6) ] [ text "342A" ]
                 , text_ [ x (px 169.6), y (px 658.8) ] [ text "Lounge" ]
-                , text_ [ x (px 251.5), y (px 654.5) ] [ text "342B Office" ]
-                , text_ [ x (px 496.6), y (px 654.5) ] [ text "342E Office" ]
+                , text_ [ x (px 227), y (px 646.6) ] [ text "342B" ]
+                , text_ [ x (px 227), y (px 658.8) ] [ text "Master's Student Room" ]
+                , text_ [ x (px 480), y (px 646.6) ] [ text "342E" ]
+                , text_ [ x (px 480), y (px 658.8) ] [ text "Master's Student Room" ]
                 , text_ [ x (px 633.3), y (px 648.4) ] [ text "342F" ]
                 , text_ [ x (px 633.3), y (px 660.6) ] [ text "Group Room" ]
                 , text_ [ x (px 340.6), y (px 640.4) ] [ text "342C" ]
@@ -1307,7 +1309,7 @@ building =
             }
           )
         , ( "342B"
-          , { label = "342B Office"
+          , { label = "342B Master's Student Room"
             , colour = Green
             , bookable = False
             , exception = False
@@ -1343,7 +1345,7 @@ building =
             }
           )
         , ( "342E"
-          , { label = "342E Office"
+          , { label = "342E Master's Student Room"
             , colour = Green
             , bookable = False
             , exception = False
