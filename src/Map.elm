@@ -331,11 +331,10 @@ roomLabels floor =
             g [ fontFamily [ "Arial", "Helvetica", "sans-serif" ], fontSize (px 9), fontWeight FontWeightBolder ]
                 [ text_ [ x (px 1182.4), y (px 364.4) ] [ text "312 Library" ]
                 , text_ [ x (px 190.5), y (px 81.2) ] [ text "324A Lounge" ]
-                , text_ [ x (px 158), y (px 165.6) ] [ text "325" ]
-                , text_ [ x (px 155), y (px 177.9) ] [ text "Falkenmark" ]
-                , text_ [ x (px 158), y (px 190.1) ] [ text "(Pre-" ]
-                , text_ [ x (px 158), y (px 202.4) ] [ text "allocated" ]
-                , text_ [ x (px 158), y (px 214.7) ] [ text "Office)" ]
+                , text_ [ x (px 160), y (px 165.6) ] [ text "325" ]
+                , text_ [ x (px 160), y (px 177.9) ] [ text "Pre-" ]
+                , text_ [ x (px 160), y (px 190.1) ] [ text "allocated" ]
+                , text_ [ x (px 160), y (px 202.4) ] [ text "Office" ]
                 , text_ [ x (px 209.7), y (px 187.9) ] [ text "326 Office" ]
                 , text_ [ x (px 261.7), y (px 187.9) ] [ text "327 Office" ]
                 , text_ [ x (px 314.3), y (px 178.8) ] [ text "328 Office" ]
@@ -434,10 +433,10 @@ roomLabels floor =
                 , text_ [ x (px 36.7), y (px 474.8) ] [ text "Toilet" ]
                 , text_ [ x (px 164.7), y (px 557.9) ] [ text "413" ]
                 , text_ [ x (px 164.7), y (px 568.8) ] [ text "Office" ]
-                , text_ [ x (px 88), y (px 535.2) ] [ text "414" ]
-                , text_ [ x (px 88), y (px 546.1) ] [ text "Folke" ]
-                , text_ [ x (px 88), y (px 557) ] [ text "(Calle's" ]
-                , text_ [ x (px 88), y (px 567.9) ] [ text "Room)" ]
+                , text_ [ x (px 80), y (px 535.2) ] [ text "414" ]
+                , text_ [ x (px 80), y (px 546.1) ] [ text "Pre-" ]
+                , text_ [ x (px 80), y (px 557) ] [ text "allocated" ]
+                , text_ [ x (px 80), y (px 567.9) ] [ text "office" ]
                 ]
 
         AndraHem ->
@@ -974,7 +973,7 @@ building =
           )
         , ( "307"
           , { label = "307 Pre-allocated Office"
-            , colour = Red
+            , colour = Clear
             , bookable = False
             , exception = True
             , capacity = 1
@@ -1153,8 +1152,8 @@ building =
             }
           )
         , ( "325"
-          , { label = "325 Falkenmark             (Pre-allocated Office)"
-            , colour = Yellow
+          , { label = "325 Pre-allocated Office"
+            , colour = Clear
             , bookable = False
             , exception = True
             , capacity = 1
@@ -1597,8 +1596,8 @@ building =
             }
           )
         , ( "414"
-          , { label = "414 Folke"
-            , colour = Yellow
+          , { label = "414 Pre-allocated Office"
+            , colour = Clear
             , bookable = False
             , exception = True
             , capacity = 2
