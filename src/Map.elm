@@ -266,8 +266,8 @@ roomLabels floor =
                 , text_ [ x (px 964.6), y (px 165.7) ] [ text "222" ]
                 , text_ [ x (px 964.6), y (px 178) ] [ text "Massage /" ]
                 , text_ [ x (px 964.6), y (px 190.2) ] [ text "Rest Room" ]
-                , text_ [ x (px 1000), y (px 93.7) ] [ text "226" ]
-                , text_ [ x (px 1000), y (px 105.4) ] [ text "Mäler" ]
+                , text_ [ x (px 1000), y (px 98.7) ] [ text "226" ]
+                , text_ [ x (px 1000), y (px 110.4) ] [ text "Mäler" ]
                 , text_ [ x (px 551), y (px 94.7) ] [ text "240" ]
                 , text_ [ x (px 551), y (px 107) ] [ text "Kitchen" ]
                 , text_ [ x (px 85), y (px 93.2) ] [ text "237" ]
@@ -749,9 +749,9 @@ building =
             , bookable = True
             , exception = False
             , capacity = 6
-            , media = mediaSet [ Screen ]
-            , iconAnchor = ( 967, -290 )
-            , mediaDetails = "Screen"
+            , media = mediaSet [ Screen, Camera ]
+            , iconAnchor = ( 967, -287 )
+            , mediaDetails = "Screen & video conferencing with Logitech meetup"
             , path = "M962.766 57.075h120.809l.2 81.4h-121.2l.191-81.4z"
             }
           )
@@ -799,7 +799,7 @@ building =
             , capacity = 30
             , media = mediaSet [ Projector, Speaker, Camera ]
             , iconAnchor = ( 25, -320 )
-            , mediaDetails = "Projector, Speakers & video conferencing with Logitech meetup"
+            , mediaDetails = "Projector, Speakers and    Logitech Rally for Zoom meetings"
             , path = "M19.475 17.675h178v162.6l-74.6-.3v-3h-103.4v-159.3z"
             }
           )
