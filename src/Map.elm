@@ -369,8 +369,9 @@ roomLabels floor =
                 , text_ [ x (px 17.2), y (px 179.9) ] [ text "WC" ]
                 , text_ [ x (px 83.8), y (px 169.5) ] [ text "323" ]
                 , text_ [ x (px 83.8), y (px 181.7) ] [ text "WC" ]
-                , text_ [ x (px 632), y (px 77.5) ] [ text "324B" ]
-                , text_ [ x (px 632), y (px 89.8) ] [ text "Group Room" ]
+                , text_ [ x (px 632), y (px 71.5) ] [ text "324B" ]
+                , text_ [ x (px 632), y (px 83.8) ] [ text "Levin Group" ]
+                , text_ [ x (px 632), y (px 96.1) ] [ text "Room" ]
                 , text_ [ x (px 470.6), y (px 76.3) ] [ text "324C Office" ]
                 , text_ [ x (px 470.6), y (px 88.6) ] [ text "(SRC Leadership)" ]
                 , text_ [ x (px 325), y (px 82.5) ] [ text "324D Office" ]
@@ -395,8 +396,8 @@ roomLabels floor =
                 , text_ [ x (px 70), y (px 669) ] [ text "355 Bolin" ]
                 , text_ [ x (px 169.6), y (px 646.6) ] [ text "342A" ]
                 , text_ [ x (px 169.6), y (px 658.8) ] [ text "Lounge" ]
-                , text_ [ x (px 235), y (px 646.6) ] [ text "342B" ]
-                , text_ [ x (px 235), y (px 658.8) ] [ text "Levin Group Room" ]
+                , text_ [ x (px 247), y (px 646.6) ] [ text "342B" ]
+                , text_ [ x (px 247), y (px 658.8) ] [ text "Group Room" ]
                 , text_ [ x (px 480), y (px 646.6) ] [ text "342E" ]
                 , text_ [ x (px 480), y (px 658.8) ] [ text "Master's Student Room" ]
                 , text_ [ x (px 633.3), y (px 648.4) ] [ text "342F" ]
@@ -1116,7 +1117,7 @@ building =
             }
           )
         , ( "324B"
-          , { label = "324B Group Room"
+          , { label = "324B Levin Group Room"
             , colour = Blue
             , bookable = False
             , exception = False
@@ -1308,7 +1309,7 @@ building =
             }
           )
         , ( "342B"
-          , { label = "342B Levin Group Room"
+          , { label = "342B Group Room"
             , colour = Green
             , bookable = False
             , exception = False
